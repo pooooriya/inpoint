@@ -1,0 +1,103 @@
+@font-face {
+    font-family: Yekan;
+    src: url('/assets/fonts/YekanBakh-Fat.eot');
+    src: local('/assets/fonts/YekanBakh-Fat'),
+        url('/assets/fonts/YekanBakh-Fat.eot?#iefix') format('embedded-opentype'),
+        url('/assets/fonts/YekanBakh-Fat.woff2') format('woff2'),
+        url('/assets/fonts/YekanBakh-Fat.woff') format('woff'),
+        url('/assets/fonts/YekanBakh-Fat.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Yekan;
+    src: url('/assets/fonts/YekanBakh-Medium.eot');
+    src: local('/assets/fonts/YekanBakh-Medium'),
+        url('/assets/fonts/YekanBakh-Medium.eot?#iefix') format('embedded-opentype'),
+        url('/assets/fonts/YekanBakh-Medium.woff2') format('woff2'),
+        url('/assets/fonts/YekanBakh-Medium.woff') format('woff'),
+        url('/assets/fonts/YekanBakh-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Yekan;
+    src: url('/assets/fonts/YekanBakh-Bold.eot');
+    src: local('/assets/fonts/YekanBakh-Bold'),
+        url('/assets/fonts/YekanBakh-Bold.eot?#iefix') format('embedded-opentype'),
+        url('/assets/fonts/YekanBakh-Bold.woff2') format('woff2'),
+        url('/assets/fonts/YekanBakh-Bold.woff') format('woff'),
+        url('/assets/fonts/YekanBakh-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Yekan;
+    src: url('/assets/fonts/YekanBakh-Light.eot');
+    src: local('/assets/fonts/YekanBakh-Light'),
+        url('/assets/fonts/YekanBakh-Light.eot?#iefix') format('embedded-opentype'),
+        url('/assets/fonts/YekanBakh-Light.woff2') format('woff2'),
+        url('/assets/fonts/YekanBakh-Light.woff') format('woff'),
+        url('/assets/fonts/YekanBakh-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Yekan;
+    src: url('/assets/fonts/YekanBakh-Heavy.eot');
+    src: local('/assets/fonts/YekanBakh-Heavy'),
+        url('/assets/fonts/YekanBakh-Heavy.eot?#iefix') format('embedded-opentype'),
+        url('/assets/fonts/YekanBakh-Heavy.woff2') format('woff2'),
+        url('/assets/fonts/YekanBakh-Heavy.woff') format('woff'),
+        url('/assets/fonts/YekanBakh-Heavy.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Yekan;
+    src: url('/assets/fonts/YekanBakh-Thin.eot');
+    src: local('/assets/fonts/YekanBakh-Thin'),
+        url('/assets/fonts/YekanBakh-Thin.eot?#iefix') format('embedded-opentype'),
+        url('/assets/fonts/YekanBakh-Thin.woff2') format('woff2'),
+        url('/assets/fonts/YekanBakh-Thin.woff') format('woff'),
+        url('/assets/fonts/YekanBakh-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Yekan;
+    src: url('/assets/fonts/YekanBakh-Regular.eot');
+    src: local('/assets/fonts/YekanBakh-Regular'),
+        url('/assets/fonts/YekanBakh-Regular.eot?#iefix') format('embedded-opentype'),
+        url('/assets/fonts/YekanBakh-Regular.woff2') format('woff2'),
+        url('/assets/fonts/YekanBakh-Regular.woff') format('woff'),
+        url('/assets/fonts/YekanBakh-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Yekan;
+    src: url('/assets/fonts/YekanBakh-Hairline.eot');
+    src: local('/assets/fonts/YekanBakh-Hairline'),
+        url('/assets/fonts/YekanBakh-Hairline.eot?#iefix') format('embedded-opentype'),
+        url('/assets/fonts/YekanBakh-Hairline.woff2') format('woff2'),
+        url('/assets/fonts/YekanBakh-Hairline.woff') format('woff'),
+        url('/assets/fonts/YekanBakh-Hairline.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
