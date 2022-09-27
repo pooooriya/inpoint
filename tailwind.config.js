@@ -8,6 +8,20 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            code: {
+              '&::before': {
+                content: 'none !important',
+              },
+              '&::after': {
+                content: 'none !important',
+              },
+            },
+          },
+        },
+      },
       fontFamily: {
         'sans': ['Yekan', ...defaultTheme.fontFamily.sans],
       },
@@ -31,5 +45,7 @@ module.exports = {
 
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
 }

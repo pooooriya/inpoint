@@ -1,0 +1,1 @@
+export { config as inpointConfig } from './inpoint/inpoint.config'

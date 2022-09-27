@@ -9,17 +9,15 @@ type HeaderProps = {
 export const Header = (props: HeaderProps) => {
     return (
         <div className="bg-primary-900 flex rounded-xl items-center justify-between px-4 py-2 text-primary-300 text-xl">
-            <h1 className="font-bold">مروری بر مقدمات برنامه نویسی</h1>
+            <div className="h-full">
+                <h1 className="font-bold leading-none">مروری بر مقدمات برنامه نویسی</h1>
+            </div>
             <div className="flex justify-center items-center">
-                <div>
-                    <DropDown Title="لینک رویداد" Icon={<AiOutlineLink className="ml-1" />} />
-                </div>
-                <div className="mx-5">
+                <DropDown Title="لینک رویداد" Icon={<AiOutlineLink className="ml-1" />} />
+                <div className="mx-3 flex justify-center items-center">
                     <Button type="primary" icon={<AiOutlinePlus className="ml-2" />} title="ایجاد نظرستجی" />
                 </div>
-                <div>
-                    <Button type="danger" icon={<IoMdExit className="ml-2" />} title="اتمام رویداد" />
-                </div>
+                <Button type="danger" icon={<IoMdExit className="ml-2" />} title="اتمام رویداد" />
             </div>
         </div>
     )
