@@ -1,5 +1,5 @@
 import { Tab } from "@headlessui/react"
-import { Chat, Button } from "components"
+import { Chat, Button, Setting, Participant } from "components"
 import { inpointConfig } from "config"
 import { Fragment } from "react"
 import { FiSettings } from 'react-icons/fi'
@@ -26,10 +26,17 @@ export const Tabs = () => {
             </Tab.List >
             <Tab.Panels>
                 <Tab.Panel>
-                    <Chat />
+                    <Chat type="public" />
                 </Tab.Panel>
-                <Tab.Panel>Content 2</Tab.Panel>
-                <Tab.Panel>Content 3</Tab.Panel>
+                <Tab.Panel>
+                    <Chat type="private" />
+                </Tab.Panel>
+                <Tab.Panel>
+                    <Participant />
+                </Tab.Panel>
+                <Tab.Panel>
+                    <Setting />
+                </Tab.Panel>
             </Tab.Panels>
         </Tab.Group >
     )
