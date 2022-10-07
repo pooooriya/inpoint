@@ -20,7 +20,7 @@ export const Tabs = () => {
                 ))}
                 <Tab as={Fragment}>
                     <div className='flex justify-end pl-5 w-3/12 outline-none mb-2'>
-                        <Button icon={<FiSettings size={18} />} type="icon" />
+                        <Button icon={<FiSettings size={18} />} variant="icon" />
                     </div>
                 </Tab>
             </Tab.List >

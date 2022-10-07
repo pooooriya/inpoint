@@ -37,7 +37,7 @@
     font-display: swap;
 }
 
-@font-face {
+/* @font-face {
     font-family: Yekan;
     src: url('/assets/fonts/YekanBakh-Light.eot');
     src: local('/assets/fonts/YekanBakh-Light'),
@@ -48,7 +48,7 @@
     font-weight: 300;
     font-style: normal;
     font-display: swap;
-}
+} */
 
 @font-face {
     font-family: Yekan;
@@ -63,7 +63,7 @@
     font-display: swap;
 }
 
-@font-face {
+/* @font-face {
     font-family: Yekan;
     src: url('/assets/fonts/YekanBakh-Thin.eot');
     src: local('/assets/fonts/YekanBakh-Thin'),
@@ -100,4 +100,4 @@
     font-weight: 100;
     font-style: normal;
     font-display: swap;
-}
+} */

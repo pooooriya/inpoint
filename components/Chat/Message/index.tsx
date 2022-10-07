@@ -1,25 +1,22 @@
+import { DropDown } from 'components'
+import { Button } from 'components'
 import { FiMoreVertical } from 'react-icons/fi'
-import { Popover } from 'components'
 type MessageProps = {
     type: "public" | "private"
 }
 
 const Message = ({ type }: MessageProps) => {
     return (
-        <div className="p-3 bg-primary-1000 flex flex-col rounded-lg">
-            <div className='flex justify-between items-center text-xs font-normal text-primary-500'>
-                <h6>پوریا باباعلی</h6>
+        <div className="p-3 bg-primary-1000 flex flex-col rounded-lg hover:bg-primary-900 transition-colors duration-200">
+            <div className='flex justify-between items-center  font-normal text-primary-500'>
+                <h6 className='text-xs'>پوریا باباعلی</h6>
 
                 <div className='flex items-center justify-center'>
-                    <h6 className=' ml-1'>4 دقیقه قبل</h6>
+                    <h6 className=' ml-1 text-xs'>4 دقیقه قبل</h6>
                     {type === "public" && (
-                        <Popover Icon={<FiMoreVertical size={18} className="font-bold text-primary-600" />}>
-                            <ul className='px-6 py-1 bg-primary-700 cursor-pointer hover:bg-primary-800 font-bold text-black' >
-                                <li>
-                                    حذف پیام
-                                </li>
-                            </ul>
-                        </Popover>
+                        <DropDown Icon={<FiMoreVertical />} Type="icon" >
+                            <Button title="اخراج کاربر" variant="secondary" />
+                        </DropDown>
                     )}
                 </div>
             </div>
