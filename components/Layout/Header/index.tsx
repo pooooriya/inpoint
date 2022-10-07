@@ -36,7 +36,6 @@ export const Header = (props: HeaderProps) => {
                     </div>
                     <Button variant="danger" icon={<IoMdExit className="ml-2" />} title="اتمام رویداد" onClick={() => setIsOpenEndShow(true)} />
                 </div>
-
             </div>
             <Modal title="اتمام رویداد" setIsOpen={setIsOpenEndShow} isOpen={isOpenEndShow} >
                 <div className="flex flex-col items-center text-primary-400">
@@ -67,7 +66,6 @@ export const Header = (props: HeaderProps) => {
                         </div>
                     </div>
                     <Button variant="secondary" title="تایید و ساخت نظرسنجی" className="text-xl flex justify-center" />
-
                 </div>
             </Drawer>
         </>

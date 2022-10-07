@@ -14,7 +14,7 @@ export const DropDown = ({ Type = "primary", Icon, Title, children }: DropDownPr
         case "primary":
             return (
                 <Menu as="div" className="relative inline-block text-left">
-                    <Menu.Button className="flex items-center border-2 hover:bg-secondary border-secondary px-4 py-1 rounded-xl font-medium outline-none text-sm hover:bg-opacity-70 hover:transition-colors hover:duration-300">
+                    <Menu.Button className="flex items-center border-2 hover:bg-secondary border-secondary px-4 py-1 rounded-xl font-medium outline-none text-sm hover:border-transparent hover:bg-opacity-70 hover:transition-colors hover:duration-300">
                         <div className='flex items-center ml-3'>
                             <span>
                                 {Icon}

@@ -15,7 +15,7 @@ const Message = ({ type }: MessageProps) => {
                     <h6 className=' ml-1 text-xs'>4 دقیقه قبل</h6>
                     {type === "public" && (
                         <DropDown Icon={<FiMoreVertical />} Type="icon" >
-                            <Button title="اخراج کاربر" variant="secondary" />
+                            <Button title="اخراج کاربر" variant="primary" />
                         </DropDown>
                     )}
                 </div>

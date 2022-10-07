@@ -8,6 +8,9 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        '3xl': '2000px',
+      },
       typography: {
         DEFAULT: {
           css: {
