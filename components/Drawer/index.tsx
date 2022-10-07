@@ -42,22 +42,23 @@ export function Drawer({
     setIsOpen
 }: DrawerProps) {
     return (
-        <Transition show={isOpen} as={Fragment}>
+        <Transition appear show={isOpen} as={Fragment} >
             <Dialog
-                unmount={false}
+                as="div"
                 onClose={() => setIsOpen(false)}
                 className={direction[type]?.dialog}
+                onBlur={() => setIsOpen(false)}
             >
                 <Transition.Child
                     as={Fragment}
-                    enter="transition-opacity ease-in duration-300"
+                    enter="ease-out duration-300"
                     enterFrom="opacity-0"
-                    enterTo="opacity-60"
-                    leave="transition-opacity ease-out duration-600"
-                    leaveFrom="opacity-60"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-60 transition-colors duration-300" />
+                    <div className="fixed inset-0 bg-black bg-opacity-70" />
                 </Transition.Child>
                 <Transition.Child
                     as={Fragment}
@@ -71,7 +72,7 @@ export function Drawer({
                     <div className='w-[350px] h-screen bg-primary-1100 z-50 flex flex-col'>
                         <div className="py-8 px-5 h-full">
                             <div className='absolute left-5 top-8 text-primary-200 cursor-pointer  font-normal'>
-                                <AiOutlineClose size={18} />
+                                <AiOutlineClose size={18} onClick={() => setIsOpen(false)} />
                             </div>
                             <div className='h-full'>
                                 <div className='flex flex-col'>
