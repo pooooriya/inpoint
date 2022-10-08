@@ -5,8 +5,6 @@ type NavigationTailProps = {
     icon: IconType
 }
 export const NavigationTail = ({ title, icon }: NavigationTailProps) => {
-    console.log(icon);
-
     return (
         <div className="bg-primary-1000 flex flex-col justify-center items-center text-center w-full p-4 cursor-pointer hover:bg-opacity-70 rounded-xl">
             <span>

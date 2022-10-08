@@ -12,9 +12,11 @@ export const Main = (props: MainProps) => {
         setVideoSize(video.current?.getClientRects()[0].height)
     }
     useEffect(() => {
+        handleResizeVideo();
         window.addEventListener("resize", handleResizeVideo)
         return () => window.removeEventListener("resize", handleResizeVideo);
     }, [])
+    console.log(videoSize);
 
 
     return (

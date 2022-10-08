@@ -8,6 +8,9 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      height: () => ({
+        "inherit": "inherit"
+      }),
       screens: {
         '3xl': '2000px',
       },
