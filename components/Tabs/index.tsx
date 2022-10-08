@@ -1,16 +1,16 @@
 import { Tab } from "@headlessui/react"
 import { Chat, Button, Setting, Participant } from "components"
-import { inpointConfig } from "config"
 import { Fragment } from "react"
 import { FiSettings } from 'react-icons/fi'
 import { TabItem } from "./TabItem"
+import Config from 'inpoint.config'
 
 export const Tabs = () => {
     return (
         <Tab.Group defaultIndex={0}>
             <Tab.List className="flex text-sm items-center w-full pt-3 border-b-2 border-primary-900 text-primary-300 font-semibold">
-                {inpointConfig?.components?.tabs?.tabItems?.map(({ key, name }) => (
-                    <Tab as={Fragment} key={key}>
+                {Config?.tabs?.map(({ id, name }) => (
+                    <Tab as={Fragment} key={id}>
                         {({ selected }) => (
                             <div className="w-3/12 outline-none">
                                 <TabItem Selected={selected} Title={name} />

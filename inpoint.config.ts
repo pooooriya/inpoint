@@ -11,6 +11,19 @@ const Config: InpointConfig = {
         { id: 4, name: "لینک های رویداد", icon: AiOutlineLink },
         { id: 5, name: "تنظیمات", icon: AiOutlineSetting },
         { id: 5, name: "خروج رویداد", icon: BiExit },
+    ], tabs: [
+        {
+            id: 1,
+            name: "گفتگوی عمومی"
+        },
+        {
+            id: 2,
+            name: "گفتگوی خصوصی"
+        },
+        {
+            id: 3,
+            name: "شرکت کنندگان"
+        }
     ]
 }
 
