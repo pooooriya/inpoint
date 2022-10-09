@@ -7,6 +7,8 @@ type NavigationConfigType = {
     id: number,
     name: string,
     icon: IconType
+    type: "navigation" | "drawer" | "modal"
+    slug: string
 }
 
 type inpointTabItem = {
