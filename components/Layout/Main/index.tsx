@@ -16,7 +16,6 @@ export const Main = (props: MainProps) => {
         window.addEventListener("resize", handleResizeVideo)
         return () => window.removeEventListener("resize", handleResizeVideo);
     }, [])
-    console.log(videoSize);
 
     return (
         <div className="bg-primary-1000 h-full p-0 flex flex-col md:p-3 lg:p-5 ">
@@ -27,10 +26,10 @@ export const Main = (props: MainProps) => {
                 <div className="flex justify-center items-center w-full">
                     <iframe className="aspect-video lg:rounded-xl w-full h-full" ref={video} src="https://player.arvancloud.com/index.html?config=https://inpoint.arvanlive.com/inp/origin_config.json&skin=shaka" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true} />
                 </div>
-                <div className="bg-primary-1100 lg:hidden" style={{
+                <div className="bg-primary-1100 lg:hidden w-full" style={{
                     height: `calc(100vh - ${videoSize}px)`
                 }}>
-                    <Navigation />
+                    <Navigation videoSize={videoSize} />
                 </div>
             </div>
         </div>
