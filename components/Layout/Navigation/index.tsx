@@ -2,8 +2,7 @@ import { NavigationTail } from "../NavigationTail"
 import Config from 'inpoint.config';
 import { HiUserGroup } from "react-icons/hi";
 import { ChatRoom } from "components/Chat";
-import { AiOutlineClose } from "react-icons/ai";
-import { Participant, Setting } from "components";
+import { Button, Drawer, Participant, Setting, Switch, TextArea } from "components";
 import { NavigationOverlay } from "../NavigationOverlay";
 import React, { useCallback, useState } from "react";
 
@@ -22,9 +21,27 @@ const handleNavigationOverlay = (type: Pick<NavigationConfigType, "slug">[keyof 
             return null
     }
 }
+
+
+// const handleDrawerOverlay = (type: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">], videoSize: number): JSX.Element | null => {
+//     switch (type) {
+//         case "chats":
+//             return (<ChatRoom videoSize={videoSize} />)
+//         case "participants":
+//             return (<Participant videoSize={videoSize} />)
+//         case "settings":
+//             return (<Setting />)
+//         default:
+//             return null
+//     }
+// }
 export const Navigation = ({ videoSize }: NavigationProps) => {
-    const [isChatOpen, setIsChatOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const [CurrentNavigationComponent, setCurrentNavigationComponent] = useState<{
+        slug: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">]
+        name: string
+    }>();
+    const [CurrentDrawerComponent, setCurrentDrawerComponent] = useState<{
         slug: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">]
         name: string
     }>();
@@ -36,8 +53,14 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
                         name,
                         slug,
                     })
-                    setIsChatOpen(true);
+                    setIsOpen(true);
                     break;
+                case "drawer":
+                    setCurrentDrawerComponent({
+                        name,
+                        slug,
+                    })
+                    setIsOpen(true);
                 default:
                     break;
             }
@@ -47,7 +70,7 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
 
     return (
         <div className="flex flex-col h-inherit relative">
-            {CurrentNavigationComponent && <NavigationOverlay isOpen={isChatOpen} setIsOpen={setIsChatOpen} title={CurrentNavigationComponent.name}>
+            {CurrentNavigationComponent && <NavigationOverlay isOpen={isOpen} setIsOpen={setIsOpen} title={CurrentNavigationComponent.name}>
                 {handleNavigationOverlay(CurrentNavigationComponent.slug, videoSize)}
             </NavigationOverlay>}
             <div className="flex flex-col px-4 py-3 border-b border-primary-800 bg-primary-1000">
@@ -68,6 +91,27 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
                     </div>
                 ))}
             </div>
+            {CurrentDrawerComponent && (
+                <Drawer isOpen={isOpen} setIsOpen={setIsOpen} type="bottom" description="نظرسنجی خود را ایجاد کنید تا کاربران بتوانند در نظر سنجی پخش زنده شرکت کنند" title="تعریف نظرسنجی">
+                    <div className="flex flex-col justify-between h-[calc(100%-50px)]">
+                        <div>
+                            <div className="flex justify-between items-center mt-5 text-primary-300">
+                                <h4>
+                                    سوال
+                                </h4>
+                                <span className="text-xs">100</span>
+                            </div>
+                            <TextArea type="primary" placeholder="سوال خود را وارد کنید ..." />
+                            <div className="flex items-center mt-5">
+                                <Switch className="mb-1" />
+                                <h4 className="mr-2 text-primary-400 font-bold">نمایش پاسخ ها</h4>
+                            </div>
+                        </div>
+                        <Button variant="secondary" title="تایید و ساخت نظرسنجی" className="text-xl flex justify-center" />
+                    </div>
+                </Drawer>
+            )}
+
         </div>
     )
 }

@@ -30,6 +30,14 @@ const direction: DirecationType = {
         leave: "transition ease-in-out duration-300 transform",
         leaveFrom: "translate-x-0",
         leaveTo: "-translate-x-full"
+    },
+    bottom: {
+        dialog: "fixed z-30 left-0 bottom-0 right-0",
+        enterFrom: "translate-y-full",
+        enterTo: "translate-y-0",
+        leave: "transition ease-in-out duration-300 transform",
+        leaveFrom: "translate-y-0",
+        leaveTo: "translate-y-full"
     }
 }
 
@@ -69,7 +77,7 @@ export function Drawer({
                     leaveFrom={direction[type]?.leaveFrom}
                     leaveTo={direction[type]?.leaveTo}
                 >
-                    <div className='w-[350px] h-screen bg-primary-1100 z-50 flex flex-col'>
+                    <div className='w-full lg:w-[350px] h-[80vh] rounded-tr-xl rounded-tl-xl lg:rounded-tl-none lg:rounded-br-xl  lg:h-screen bg-primary-1100 z-50 flex flex-col'>
                         <div className="py-8 px-5 h-full">
                             <div className='absolute left-5 top-8 text-primary-200 cursor-pointer  font-normal'>
                                 <AiOutlineClose size={18} onClick={() => setIsOpen(false)} />
