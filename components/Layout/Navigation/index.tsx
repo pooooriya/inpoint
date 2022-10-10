@@ -5,7 +5,7 @@ import { ChatRoom } from "components/Chat";
 import { AiOutlineClose } from "react-icons/ai";
 import { Participant, Setting } from "components";
 import { NavigationOverlay } from "../NavigationOverlay";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 type NavigationProps = {
     videoSize: number
@@ -28,19 +28,23 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
         slug: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">]
         name: string
     }>();
-    const handleClickTail = (slug: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">], type: Pick<NavigationConfigType, "type">[keyof Pick<NavigationConfigType, "type">], name: string) => {
-        switch (type) {
-            case "navigation":
-                setCurrentNavigationComponent({
-                    name,
-                    slug,
-                })
-                setIsChatOpen(true);
-                break;
-            default:
-                break;
-        }
-    }
+    const handleClickTail = useCallback(
+        (slug: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">], type: Pick<NavigationConfigType, "type">[keyof Pick<NavigationConfigType, "type">], name: string) => {
+            switch (type) {
+                case "navigation":
+                    setCurrentNavigationComponent({
+                        name,
+                        slug,
+                    })
+                    setIsChatOpen(true);
+                    break;
+                default:
+                    break;
+            }
+        },
+        [CurrentNavigationComponent?.name, CurrentNavigationComponent?.slug],
+    )
+
     return (
         <div className="flex flex-col h-inherit relative">
             {CurrentNavigationComponent && <NavigationOverlay isOpen={isChatOpen} setIsOpen={setIsChatOpen} title={CurrentNavigationComponent.name}>
