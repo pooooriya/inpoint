@@ -30,6 +30,27 @@ export const Poll = ({ }: PollType) => {
                         <li>
                             <Input variant="primary" lable="سوال 1" />
                         </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
                     </ul>
                     <div className="text-primary-300 flex items-center pb-2 hover:underline cursor-pointer hover:text-primary-100">
                         <BiPlus className="text-lg" />
@@ -37,7 +58,9 @@ export const Poll = ({ }: PollType) => {
                     </div>
                 </div>
             </div>
-            <Button variant="secondary" title="تایید و ساخت نظرسنجی" className="text-xl flex justify-center mt-3" />
+            <div className="mt-3">
+                <Button variant="secondary" title="تایید و ساخت نظرسنجی" className="text-xl flex justify-center w-full mb-3" />
+            </div>
         </div>
     )
 }
