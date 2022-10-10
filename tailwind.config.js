@@ -8,6 +8,15 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      keyframes: {
+        error: {
+          '0%': { opacity: 0, transform: 'translateY(-5px)' },
+          '100%': { opacity: 100, transform: 'translateY(0)' },
+        }
+      },
+      animation: {
+        error: 'error .5s ease-in-out forwards',
+      },
       height: () => ({
         "inherit": "inherit"
       }),

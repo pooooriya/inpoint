@@ -5,6 +5,7 @@ import { ChatRoom } from "components/Chat";
 import { Button, Drawer, Participant, Setting, Switch, TextArea } from "components";
 import { NavigationOverlay } from "../NavigationOverlay";
 import React, { useCallback, useState } from "react";
+import { Poll } from "components/Poll";
 
 type NavigationProps = {
     videoSize: number
@@ -93,22 +94,7 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
             </div>
             {CurrentDrawerComponent && (
                 <Drawer isOpen={isOpen} setIsOpen={setIsOpen} type="bottom" description="نظرسنجی خود را ایجاد کنید تا کاربران بتوانند در نظر سنجی پخش زنده شرکت کنند" title="تعریف نظرسنجی">
-                    <div className="flex flex-col justify-between h-[calc(100%-50px)]">
-                        <div>
-                            <div className="flex justify-between items-center mt-5 text-primary-300">
-                                <h4>
-                                    سوال
-                                </h4>
-                                <span className="text-xs">100</span>
-                            </div>
-                            <TextArea type="primary" placeholder="سوال خود را وارد کنید ..." />
-                            <div className="flex items-center mt-5">
-                                <Switch className="mb-1" />
-                                <h4 className="mr-2 text-primary-400 font-bold">نمایش پاسخ ها</h4>
-                            </div>
-                        </div>
-                        <Button variant="secondary" title="تایید و ساخت نظرسنجی" className="text-xl flex justify-center" />
-                    </div>
+                    <Poll />
                 </Drawer>
             )}
 

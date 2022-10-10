@@ -55,7 +55,6 @@ export function Drawer({
                 as="div"
                 onClose={() => setIsOpen(false)}
                 className={direction[type]?.dialog}
-                onBlur={() => setIsOpen(false)}
             >
                 <Transition.Child
                     as={Fragment}
@@ -77,7 +76,7 @@ export function Drawer({
                     leaveFrom={direction[type]?.leaveFrom}
                     leaveTo={direction[type]?.leaveTo}
                 >
-                    <div className='w-full lg:w-[350px] h-[80vh] rounded-tr-xl rounded-tl-xl lg:rounded-tl-none lg:rounded-br-xl  lg:h-screen bg-primary-1100 z-50 flex flex-col'>
+                    <div className='w-full overflow-auto lg:w-[350px] min-h-[80vh] max-h-screen rounded-tr-xl rounded-tl-xl lg:rounded-tl-none lg:rounded-br-xl  lg:h-screen bg-primary-1100 z-50 flex flex-col'>
                         <div className="py-8 px-5 h-full">
                             <div className='absolute left-5 top-8 text-primary-200 cursor-pointer  font-normal'>
                                 <AiOutlineClose size={18} onClick={() => setIsOpen(false)} />
