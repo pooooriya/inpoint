@@ -46,7 +46,7 @@ export const ChatRoom = ({ type = 'public', videoSize }: ChatRoomProps) => {
                     <Message type={type} />
                 </li>
             </ul>
-            <div className='absolute bottom-0 w-full'>
+            <div className='fixed lg:absolute bottom-0 right-0 left-0 w-full'>
                 <MessageBox />
             </div>
         </ChatLayout>
