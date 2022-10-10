@@ -23,8 +23,8 @@ export const Main = (props: MainProps) => {
                 <Header />
             </div>
             <div className="fixed lg:relative inset-0 overflow-hidden h-full flex flex-col lg:flex-row justify-center items-center rounded-none lg:rounded-lg">
-                <div className="relative pt-[56.25%] bg-black w-full overflow-hidden">
-                    <iframe className="absolute inset-0 w-full h-full" ref={video} src="https://player.arvancloud.com/index.html?config=https://inpoint.arvanlive.com/inp/origin_config.json&skin=shaka" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true} />
+                <div className="flex relative h-auto bg-black justify-center w-full max-w-full min-h-0">
+                    <iframe className="h-full w-full aspect-video" ref={video} src="https://player.arvancloud.com/index.html?config=https://inpoint.arvanlive.com/inp/origin_config.json&skin=shaka" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true} />
                 </div>
                 <div className="bg-primary-1100 lg:hidden w-full flex-auto">
                     <Navigation videoSize={videoSize ?? 0} />
