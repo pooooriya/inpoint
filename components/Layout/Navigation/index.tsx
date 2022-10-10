@@ -3,22 +3,49 @@ import Config from 'inpoint.config';
 import { HiUserGroup } from "react-icons/hi";
 import { ChatRoom } from "components/Chat";
 import { AiOutlineClose } from "react-icons/ai";
-import { Participant } from "components";
+import { Participant, Setting } from "components";
+import { NavigationOverlay } from "../NavigationOverlay";
+import React, { useState } from "react";
 
 type NavigationProps = {
     videoSize: number
 }
+const handleNavigationOverlay = (type: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">], videoSize: number): JSX.Element | null => {
+    switch (type) {
+        case "chats":
+            return (<ChatRoom videoSize={videoSize} />)
+        case "participants":
+            return (<Participant videoSize={videoSize} />)
+        case "settings":
+            return (<Setting />)
+        default:
+            return null
+    }
+}
 export const Navigation = ({ videoSize }: NavigationProps) => {
+    const [isChatOpen, setIsChatOpen] = useState(false);
+    const [CurrentNavigationComponent, setCurrentNavigationComponent] = useState<{
+        slug: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">]
+        name: string
+    }>();
+    const handleClickTail = (slug: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">], type: Pick<NavigationConfigType, "type">[keyof Pick<NavigationConfigType, "type">], name: string) => {
+        switch (type) {
+            case "navigation":
+                setCurrentNavigationComponent({
+                    name,
+                    slug,
+                })
+                setIsChatOpen(true);
+                break;
+            default:
+                break;
+        }
+    }
     return (
         <div className="flex flex-col h-inherit relative">
-            <div className="absolute inset-0 z-10 bg-primary-1100 h-inherit">
-                <div className="flex p-5  border-b border-primary-800 bg-primary-1000 justify-between items-center">
-                    <h2 className="text-primary-300 text-xl text-ellipsis overflow-hidden whitespace-nowrap">گفتگوها رویداد</h2>
-                    <AiOutlineClose size={25} className="cursor-pointer text-primary-400" />
-                </div>
-                {/* <ChatRoom videoSize={videoSize} /> */}
-                {/* <Participant videoSize={videoSize} /> */}
-            </div>
+            {CurrentNavigationComponent && <NavigationOverlay isOpen={isChatOpen} setIsOpen={setIsChatOpen} title={CurrentNavigationComponent.name}>
+                {handleNavigationOverlay(CurrentNavigationComponent.slug, videoSize)}
+            </NavigationOverlay>}
             <div className="flex flex-col px-4 py-3 border-b border-primary-800 bg-primary-1000">
                 <h2 className="text-primary-300 text-xl text-ellipsis overflow-hidden whitespace-nowrap">رویداد برنامه نویسی تحت وبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت وبرویداد برنامه نویسی تحت وب</h2>
                 <h5 className="text-primary-600 mt-1 flex ">
@@ -33,7 +60,7 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
             }}>
                 {Config.navigations.map((nav) => (
                     <div className="w-6/12 flex justify-center items-center p-2">
-                        <NavigationTail key={nav.id} title={nav.name} icon={nav.icon} />
+                        <NavigationTail key={nav.id} title={nav.name} icon={nav.icon} onClick={() => handleClickTail(nav.slug, nav.type, nav.name)} />
                     </div>
                 ))}
             </div>

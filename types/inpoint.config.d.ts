@@ -8,7 +8,7 @@ type NavigationConfigType = {
     name: string,
     icon: IconType
     type: "navigation" | "drawer" | "modal"
-    slug: string
+    slug: "chats" | "participants" | "exit" | "polls" | "settings" | "links"
 }
 
 type inpointTabItem = {
