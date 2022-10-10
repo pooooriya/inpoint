@@ -17,6 +17,7 @@ export const Main = (props: MainProps) => {
         return () => window.removeEventListener("resize", handleResizeVideo);
     }, [])
 
+
     return (
         <div className="bg-primary-1000 h-full p-0 flex flex-col md:p-3 lg:p-5 ">
             <div className="hidden lg:block mb-2 xl:flex flex-shrink-0 justify-center items-center w-full">
