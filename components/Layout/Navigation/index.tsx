@@ -66,12 +66,12 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
     )
 
     return (
-        <div className="flex flex-col h-inherit relative">
+        <div className="flex flex-col flex-auto relative">
             {CurrentNavigationComponent && <NavigationOverlay isOpen={isOpen} setIsOpen={setIsOpen} title={CurrentNavigationComponent.name}>
                 {handleNavigationOverlay(CurrentNavigationComponent.slug, videoSize)}
             </NavigationOverlay>}
             <div className="flex flex-col px-4 py-3 border-b border-primary-800 bg-primary-1000">
-                <h2 className="text-primary-300 text-xl text-ellipsis overflow-hidden whitespace-nowrap">رویداد برنامه نویسی تحت وبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت وبرویداد برنامه نویسی تحت وب</h2>
+                <h2 className="text-primary-300 text-sm lg:text-xl text-ellipsis overflow-hidden whitespace-nowrap">رویداد برنامه نویسی تحت وبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت وبرویداد برنامه نویسی تحت وب</h2>
                 <h5 className="text-primary-600 mt-1 flex ">
                     <HiUserGroup className="ml-1" />
                     <span>
@@ -79,9 +79,7 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
                     </span>
                 </h5>
             </div>
-            <div className="flex flex-wrap justify-center items-center p-2 h-inherit  content-start overflow-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-700" style={{
-                height: `calc(100vh - ${videoSize}px)`
-            }}>
+            <div className="flex flex-wrap justify-center items-center p-2 content-start overflow-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-700">
                 {Config.navigations.map((nav) => (
                     <div className="w-6/12 flex justify-center items-center p-2">
                         <NavigationTail key={nav.id} title={nav.name} icon={nav.icon} onClick={() => handleClickTail(nav.slug, nav.type, nav.name)} />

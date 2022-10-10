@@ -23,12 +23,10 @@ export const Main = (props: MainProps) => {
                 <Header />
             </div>
             <div className="fixed lg:relative inset-0 overflow-hidden h-full flex flex-col lg:flex-row justify-center items-center">
-                <div className="flex justify-center items-center w-full">
-                    <iframe className="aspect-video lg:rounded-xl w-full h-full" ref={video} src="https://player.arvancloud.com/index.html?config=https://inpoint.arvanlive.com/inp/origin_config.json&skin=shaka" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true} />
+                <div className="flex flex-auto bg-black h-full w-full max-w-full min-h-0">
+                    <iframe className="h-full w-full" ref={video} src="https://player.arvancloud.com/index.html?config=https://inpoint.arvanlive.com/inp/origin_config.json&skin=shaka" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true} />
                 </div>
-                <div className="bg-primary-1100 lg:hidden w-full" style={{
-                    height: `calc(100vh - ${Math.floor(videoSize)}px)`
-                }}>
+                <div className="bg-primary-1100 lg:hidden w-full flex-auto">
                     <Navigation videoSize={videoSize ?? 0} />
                 </div>
             </div>
