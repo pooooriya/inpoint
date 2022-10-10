@@ -24,18 +24,14 @@ const handleNavigationOverlay = (type: Pick<NavigationConfigType, "slug">[keyof 
 }
 
 
-// const handleDrawerOverlay = (type: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">], videoSize: number): JSX.Element | null => {
-//     switch (type) {
-//         case "chats":
-//             return (<ChatRoom videoSize={videoSize} />)
-//         case "participants":
-//             return (<Participant videoSize={videoSize} />)
-//         case "settings":
-//             return (<Setting />)
-//         default:
-//             return null
-//     }
-// }
+const handleDrawerOverlay = (type: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">]): JSX.Element | null => {
+    switch (type) {
+        case "polls":
+            return (<Poll />)
+        default:
+            return null
+    }
+}
 export const Navigation = ({ videoSize }: NavigationProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [CurrentNavigationComponent, setCurrentNavigationComponent] = useState<{
@@ -94,7 +90,7 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
             </div>
             {CurrentDrawerComponent && (
                 <Drawer isOpen={isOpen} setIsOpen={setIsOpen} type="bottom" description="نظرسنجی خود را ایجاد کنید تا کاربران بتوانند در نظر سنجی پخش زنده شرکت کنند" title="تعریف نظرسنجی">
-                    <Poll />
+                    {handleDrawerOverlay(CurrentDrawerComponent.slug)}
                 </Drawer>
             )}
 
