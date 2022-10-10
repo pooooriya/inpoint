@@ -6,7 +6,7 @@ type PollType = {
 }
 export const Poll = ({ }: PollType) => {
     return (
-        <div className="flex flex-col justify-between h-[calc(100%-50px)]">
+        <div className="flex flex-col justify-between">
             <div>
                 <div className="flex justify-between items-center mt-5 text-primary-300">
                     <h4>
@@ -51,15 +51,45 @@ export const Poll = ({ }: PollType) => {
                         <li>
                             <Input variant="primary" lable="سوال 1" />
                         </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
+                        <li>
+                            <Input variant="primary" lable="سوال 1" />
+                        </li>
                     </ul>
-                    <div className="text-primary-300 flex items-center pb-2 hover:underline cursor-pointer hover:text-primary-100">
+                    {/* <div className="text-primary-300 flex items-center pb-2 hover:underline cursor-pointer hover:text-primary-100">
                         <BiPlus className="text-lg" />
                         <h6 className="text-xs">افزودن پاسخ جدید</h6>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="mt-3">
-                <Button variant="secondary" title="تایید و ساخت نظرسنجی" className="text-xl flex justify-center w-full mb-3" />
+                <Button variant="secondary" title="تایید و ساخت نظرسنجی" className="text-xl flex justify-center w-full" />
             </div>
         </div>
     )

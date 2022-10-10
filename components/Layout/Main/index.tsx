@@ -7,9 +7,9 @@ type MainProps = {
 }
 export const Main = (props: MainProps) => {
     const video = useRef<HTMLIFrameElement>(null);
-    const [videoSize, setVideoSize] = useState<number | undefined>(0);
+    const [videoSize, setVideoSize] = useState<number>(0);
     const handleResizeVideo = () => {
-        setVideoSize(video?.current?.getClientRects()[0].height)
+        setVideoSize(video?.current?.getClientRects()[0].height ?? 0)
     }
     useEffect(() => {
         handleResizeVideo();
