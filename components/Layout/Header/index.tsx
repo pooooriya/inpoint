@@ -15,11 +15,11 @@ export const Header = (props: HeaderProps) => {
     const [isOpenEndShow, setIsOpenEndShow] = useState(false)
     return (
         <>
-            <div className="bg-primary-900 flex rounded-xl items-center justify-between px-4 py-2 text-primary-300 text-xl">
-                <div className="h-full w-5/12">
-                    <h1 className="font-bold leading-none overflow-hidden whitespace-nowrap text-ellipsis w-[99%]">مروری بری بری بری بری بری بری بری بری بری بری بری بری بری بری</h1>
+            <div className="bg-primary-900 flex xl:flex-row flex-wrap rounded-xl items-center justify-center xl:justify-between text-center px-4 py-2 text-primary-300 text-xl w-full">
+                <div className="flex justify-start flex-auto m-2">
+                    <h1 className="font-bold text-right leading-none overflow-hidden whitespace-nowrap text-ellipsis w-[99%]">مروری بری بری بری بری بری بری بری بری بری بری بری بری بری بری</h1>
                 </div>
-                <div className="flex justify-end items-center w-7/12">
+                <div className="flex justify-end flex-auto m-2">
                     <DropDown Title="لینک رویداد" Icon={<AiOutlineLink className="ml-1" />} Type="primary">
                         <div className='cursor-pointer p-2 border mt-2 border-primary-800  bg-primary-1000 rounded-lg flex items-center'>
                             <div className='p-3 rounded-xl  bg-primary-800'>

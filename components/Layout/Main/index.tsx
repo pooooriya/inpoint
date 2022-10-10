@@ -19,7 +19,7 @@ export const Main = (props: MainProps) => {
 
     return (
         <div className="bg-primary-1000 h-full p-0 flex flex-col md:p-3 lg:p-5 ">
-            <div className="hidden lg:block mb-2">
+            <div className="hidden lg:block mb-2 xl:flex flex-shrink-0 justify-center items-center w-full">
                 <Header />
             </div>
             <div className="fixed lg:relative inset-0 overflow-hidden h-full flex flex-col lg:flex-row justify-center items-center">
@@ -29,7 +29,7 @@ export const Main = (props: MainProps) => {
                 <div className="bg-primary-1100 lg:hidden w-full" style={{
                     height: `calc(100vh - ${videoSize}px)`
                 }}>
-                    <Navigation videoSize={videoSize} />
+                    <Navigation videoSize={videoSize ?? 0} />
                 </div>
             </div>
         </div>

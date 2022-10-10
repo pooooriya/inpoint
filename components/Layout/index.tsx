@@ -8,7 +8,7 @@ type LayoutProps = {
 export const Layout = (props: LayoutProps) => {
     return (
         <div className="flex h-screen">
-            <div className="hidden lg:flex md:basis-[400px] w-full">
+            <div className="hidden lg:flex md:basis-[400px] w-full flex-shrink-0 flex-grow-0">
                 <Sidebar />
             </div>
             <div className="flex-auto">
