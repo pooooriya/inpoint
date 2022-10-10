@@ -27,7 +27,7 @@ export const Main = (props: MainProps) => {
                     <iframe className="aspect-video lg:rounded-xl w-full h-full" ref={video} src="https://player.arvancloud.com/index.html?config=https://inpoint.arvanlive.com/inp/origin_config.json&skin=shaka" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true} />
                 </div>
                 <div className="bg-primary-1100 lg:hidden w-full" style={{
-                    height: `calc(100vh - ${videoSize}px)`
+                    height: `calc(100vh - ${Math.floor(videoSize)}px)`
                 }}>
                     <Navigation videoSize={videoSize ?? 0} />
                 </div>
