@@ -66,7 +66,7 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
     )
 
     return (
-        <div className="flex flex-col flex-auto relative">
+        <>
             {CurrentNavigationComponent && <NavigationOverlay isOpen={isOpen} setIsOpen={setIsOpen} title={CurrentNavigationComponent.name}>
                 {handleNavigationOverlay(CurrentNavigationComponent.slug, videoSize)}
             </NavigationOverlay>}
@@ -90,9 +90,8 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
                 <Drawer isOpen={isOpen} setIsOpen={setIsOpen} type="bottom" description="نظرسنجی خود را ایجاد کنید تا کاربران بتوانند در نظر سنجی پخش زنده شرکت کنند" title="تعریف نظرسنجی">
                     {handleDrawerOverlay(CurrentDrawerComponent.slug)}
                 </Drawer>
-            )}
+            )}</>
 
-        </div>
     )
 }
 

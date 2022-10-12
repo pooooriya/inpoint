@@ -8,8 +8,8 @@ type ChatRoomProps = {
 }
 export const ChatRoom = ({ videoSize }: ChatRoomProps) => {
     return (
-        <ChatLayout videoSize={videoSize}>
-            <ul className="p-3 overflow-auto h-[calc(100%-50px)] scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-600">
+        <>
+            <ul className="flex-1 p-3 overflow-auto scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-600">
                 <li className='px-5 py-2'>
                     <Message />
                 </li>
@@ -46,9 +46,9 @@ export const ChatRoom = ({ videoSize }: ChatRoomProps) => {
                     <Message />
                 </li>
             </ul>
-            <div className='fixed lg:absolute bottom-0 right-0 left-0 w-full'>
+            <div className='flex w-full'>
                 <MessageBox />
             </div>
-        </ChatLayout>
+        </>
     )
 }

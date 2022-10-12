@@ -24,10 +24,10 @@ export const Main = (props: MainProps) => {
                 <Header />
             </div>
             <div className="fixed lg:relative inset-0 overflow-hidden h-full flex flex-col lg:flex-row justify-center items-center rounded-none lg:rounded-lg">
-                <div className="flex relative h-auto bg-black justify-center w-full max-w-full min-h-0">
+                <div className="flex relative h-auto bg-black justify-center w-full max-w-full min-h-0 flex-auto">
                     <iframe className="h-full w-full aspect-video" ref={video} src="https://player.arvancloud.com/index.html?config=https://inpoint.arvanlive.com/inp/origin_config.json&skin=shaka" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true} />
                 </div>
-                <div className="bg-primary-1100 lg:hidden w-full flex-auto">
+                <div className="bg-primary-1100 lg:hidden w-full flex-auto flex-shrink-0 flex-grow-0 relative">
                     <Navigation videoSize={videoSize ?? 0} />
                 </div>
             </div>
