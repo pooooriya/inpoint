@@ -81,7 +81,7 @@ export const Navigation = ({ videoSize }: NavigationProps) => {
             </div>
             <div className="flex flex-wrap justify-center items-center p-2 content-start overflow-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-700">
                 {Config.navigations.map((nav) => (
-                    <div className="w-6/12 flex justify-center items-center p-2">
+                    <div className="w-[100px] h-[100px] flex justify-center items-center p-2">
                         <NavigationTail key={nav.id} title={nav.name} icon={nav.icon} onClick={() => handleClickTail(nav.slug, nav.type, nav.name)} />
                     </div>
                 ))}
