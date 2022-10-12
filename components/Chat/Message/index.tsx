@@ -17,7 +17,7 @@ const Message = ({ }: MessageProps) => {
                     </DropDown>
                 </div>
             </div>
-            <p dir='auto' className='text-primary-400 mt-2'>بنظرتون من برنامه نویس خوبیم یا نه ؟</p>
+            <p dir='auto' className='text-primary-400 mt-2 text-sm'>تست ابر آروان</p>
         </div>
     )
 }
