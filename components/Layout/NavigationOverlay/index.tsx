@@ -21,12 +21,12 @@ export const NavigationOverlay = ({ children, title, isOpen = false, setIsOpen =
                 leaveTo="opacity-0"
             >
                 <div className="absolute inset-0 z-10 bg-primary-1100 h-inherit flex flex-col">
-                    <div className="flex p-5  border-b border-primary-800 bg-primary-1000 justify-between items-center">
-                        {title && (
-                            <h2 className="text-primary-300 text-sm lg:text-xl text-ellipsis overflow-hidden whitespace-nowrap">{title}</h2>
-                        )}
+                    {title && (<div className="flex p-5  border-b border-primary-800 bg-primary-1000 justify-between items-center">
+
+                        <h2 className="text-primary-300 text-sm lg:text-xl text-ellipsis overflow-hidden whitespace-nowrap">{title}</h2>
+
                         <AiOutlineClose size={25} className="cursor-pointer text-primary-400" onClick={() => setIsOpen(false)} />
-                    </div>
+                    </div>)}
                     {children}
                 </div>
             </Transition.Child>

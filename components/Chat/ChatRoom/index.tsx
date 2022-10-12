@@ -1,12 +1,10 @@
 
-import ChatLayout from '../ChatLayout'
 import Message from '../Message'
 import { MessageBox } from '../MessageBox'
 type ChatRoomProps = {
-    type?: "public" | "private"
-    videoSize: number
+
 }
-export const ChatRoom = ({ videoSize }: ChatRoomProps) => {
+export const ChatRoom = ({ }: ChatRoomProps) => {
     return (
         <>
             <ul className="flex-1 p-3 overflow-auto scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-600">
