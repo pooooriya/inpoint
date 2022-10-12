@@ -1,3 +1,4 @@
+import { ChatRoom } from "components/Chat";
 import { useEffect, useRef, useState } from "react"
 import { Header } from "../Header"
 import { Navigation } from "../Navigation";

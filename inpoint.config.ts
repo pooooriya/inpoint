@@ -18,10 +18,6 @@ const Config: InpointConfig = {
         },
         {
             id: 2,
-            name: "گفتگوی خصوصی"
-        },
-        {
-            id: 3,
             name: "شرکت کنندگان"
         }
     ]

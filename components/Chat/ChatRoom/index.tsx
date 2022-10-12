@@ -6,44 +6,44 @@ type ChatRoomProps = {
     type?: "public" | "private"
     videoSize: number
 }
-export const ChatRoom = ({ type = 'public', videoSize }: ChatRoomProps) => {
+export const ChatRoom = ({ videoSize }: ChatRoomProps) => {
     return (
         <ChatLayout videoSize={videoSize}>
             <ul className="p-3 overflow-auto h-[calc(100%-50px)] scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-600">
                 <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>
                 <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>
                 <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>
                 <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>
                 <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>  <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>
                 <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>
                 <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>
                 <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>
                 <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>
                 <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>
                 <li className='px-5 py-2'>
-                    <Message type={type} />
+                    <Message />
                 </li>
             </ul>
             <div className='fixed lg:absolute bottom-0 right-0 left-0 w-full'>
