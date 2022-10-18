@@ -12,20 +12,21 @@ const style = {
 }
 
 export const TextArea = ({ placeholder, rows = 5, type = "transparent" }: TextAreaProps): JSX.Element => {
-    const [textHeight, setTextHeight] = useState(1);
+    const [textHeight, setTextHeight] = useState(type != 'primary' ? 1 : rows);
     const IntialScroll = useRef<number>()
     function handleChange(event: ChangeEvent<HTMLTextAreaElement>): void {
-        const height = event.target.scrollHeight;
-        if (!event.target.value) {
-            setTextHeight(1);
+        if (type != "primary") {
+            const height = event.target.scrollHeight;
+            if (!event.target.value) {
+                setTextHeight(1);
+            }
+            if (!IntialScroll.current) {
+                IntialScroll.current = height;
+            }
+            if (height != IntialScroll.current && event.target.value) {
+                setTextHeight(2);
+            }
         }
-        if (!IntialScroll.current) {
-            IntialScroll.current = height;
-        }
-        if (height != IntialScroll.current && event.target.value) {
-            setTextHeight(2);
-        }
-
     }
     return (
         <textarea rows={textHeight} className={style[type]} placeholder={placeholder} onChange={handleChange} />
