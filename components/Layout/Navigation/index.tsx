@@ -2,20 +2,17 @@ import { NavigationTail } from "../NavigationTail"
 import Config from 'inpoint.config';
 import { HiUserGroup } from "react-icons/hi";
 import { ChatRoom } from "components/Chat";
-import { Button, Drawer, Participant, Setting, Switch, TextArea } from "components";
+import { Drawer, Participant, Setting } from "components";
 import { NavigationOverlay } from "../NavigationOverlay";
 import React, { useCallback, useState } from "react";
 import { Poll } from "components/Poll";
 
-type NavigationProps = {
-    videoSize: number
-}
 const handleNavigationOverlay = (type: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">], videoSize: number): JSX.Element | null => {
     switch (type) {
         case "chats":
-            return (<ChatRoom videoSize={videoSize} />)
+            return (<ChatRoom />)
         case "participants":
-            return (<Participant videoSize={videoSize} />)
+            return (<Participant />)
         case "settings":
             return (<Setting />)
         default:
@@ -32,7 +29,7 @@ const handleDrawerOverlay = (type: Pick<NavigationConfigType, "slug">[keyof Pick
             return null
     }
 }
-export const Navigation = ({ videoSize }: NavigationProps) => {
+export const Navigation = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [CurrentNavigationComponent, setCurrentNavigationComponent] = useState<{
         slug: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">]
