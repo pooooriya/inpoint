@@ -7,7 +7,7 @@ import { NavigationOverlay } from "../NavigationOverlay";
 import React, { useCallback, useState } from "react";
 import { Poll } from "components/Poll";
 
-const handleNavigationOverlay = (type: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">], videoSize: number): JSX.Element | null => {
+const handleNavigationOverlay = (type: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">]): JSX.Element | null => {
     switch (type) {
         case "chats":
             return (<ChatRoom />)
@@ -65,7 +65,7 @@ export const Navigation = () => {
     return (
         <>
             {CurrentNavigationComponent && <NavigationOverlay isOpen={isOpen} setIsOpen={setIsOpen} title={CurrentNavigationComponent.name}>
-                {handleNavigationOverlay(CurrentNavigationComponent.slug, videoSize)}
+                {handleNavigationOverlay(CurrentNavigationComponent.slug)}
             </NavigationOverlay>}
             <div className="flex flex-col px-4 py-3 border-b border-primary-800 bg-primary-1000">
                 <h2 className="text-primary-300 text-sm lg:text-xl text-ellipsis overflow-hidden whitespace-nowrap">رویداد برنامه نویسی تحت وبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت ووبرویداد برنامه نویسی تحت وبرویداد برنامه نویسی تحت وب</h2>
