@@ -1,6 +1,8 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { AiOutlineClose } from 'react-icons/ai';
+import React from 'react';
+import classNames from 'classnames';
 
 type DrawerProps = {
     type: "left" | "right" | "top" | "bottom"
@@ -41,39 +43,14 @@ const direction: DirecationType = {
     }
 }
 
-export function Drawer({
+export const Drawer = React.forwardRef<HTMLDivElement, DrawerProps>(({
     title,
     description,
     children,
     isOpen,
     type = "left",
     setIsOpen
-}: DrawerProps) {
-    const element = useRef<HTMLDivElement>(null);
-    const [elementSize, setElementSize] = useState<string>("0px");
-    const handleResizeElement = () => {
-        const deviceHeight = window.innerHeight;
-        const elementHeight = element?.current?.getClientRects()[0].height;
-        if (elementHeight) {
-            setElementSize(elementHeight > deviceHeight ? "100vh" : elementHeight + "px")
-        }
-    }
-
-    useEffect(() => {
-        handleResizeElement();
-        window.addEventListener("resize", handleResizeElement)
-        return () => window.removeEventListener("resize", handleResizeElement);
-    }, [])
-
-    useEffect(() => {
-        if (!element.current) return;
-        const resizeObserver = new ResizeObserver(() => {
-            handleResizeElement();
-        });
-        resizeObserver.observe(element.current);
-        return () => resizeObserver.disconnect();
-    }, [element.current]);
-
+}, ref) => {
     return (
         <Transition appear show={isOpen} as={Fragment} >
             <Dialog
@@ -101,18 +78,16 @@ export function Drawer({
                     leaveFrom={direction[type]?.leaveFrom}
                     leaveTo={direction[type]?.leaveTo}
                 >
-                    <div className='fixed lg:relative lg:top-0 transition-all duration-200 inset-0 top-32 w-full overflow-auto lg:w-[350px] min-h-[80vh] max-h-screen rounded-tr-xl rounded-tl-xl lg:rounded-tl-none lg:rounded-br-xl  lg:h-screen bg-primary-1100 z-50 flex flex-col' style={{
-                        top: `calc(100vh - ${elementSize})`
-                    }}>
-                        <div className="py-8 px-5" ref={element}>
-                            <div className='absolute left-5 top-8 text-primary-200 cursor-pointer  font-normal'>
+                    <div ref={ref} className={classNames("fixed !w-full lg:relative lg:top-0 transition-all duration-200 h-auto overflow-y-auto max-h-full flex-[1_0_auto] overflow-auto lg:w-[350px] rounded-tr-xl rounded-tl-xl lg:rounded-tl-none lg:rounded-br-xl  bg-primary-1100 z-50 flex flex-col inset-0 !top-auto", type == "left" || type == "right" ? "!h-full" : "")}>
+                        <div className="py-8 px-5 flex-1">
+                            {/* <div className='absolute left-5 top-8 text-primary-200 cursor-pointer font-normal'>
                                 <AiOutlineClose size={18} onClick={() => setIsOpen(false)} />
-                            </div>
+                            </div> */}
                             <div className='flex flex-col'>
                                 {title && (<h2 className="text-primary-200 font-normal">{title}</h2>)}
                                 {description && (<h4 className="text-primary-800 text-sm w-[80%]">{description}</h4>)}
                             </div>
-                            <div>
+                            <div className='flex flex-col flex-auto'>
                                 {children}
                             </div>
                         </div>
@@ -121,4 +96,4 @@ export function Drawer({
             </Dialog>
         </Transition>
     );
-}
+})

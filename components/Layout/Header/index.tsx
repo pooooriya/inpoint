@@ -51,7 +51,7 @@ export const Header = (props: HeaderProps) => {
                 </div>
             </Modal>
             <Drawer isOpen={isOpen} setIsOpen={setisOpen} type="left" description="نظرسنجی خود را ایجاد کنید تا کاربران بتوانند در نظر سنجی پخش زنده شرکت کنند" title="تعریف نظرسنجی">
-                <div className="flex flex-col justify-between h-[calc(100%-50px)]">
+                <div className="flex flex-col justify-between">
                     <div>
                         <div className="flex justify-between items-center mt-5 text-primary-300">
                             <h4>
