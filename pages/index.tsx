@@ -1,5 +1,7 @@
 import { Layout } from 'components'
+import { AppContext } from 'context'
 import type { NextPage } from 'next'
+import { useContext, useEffect } from 'react'
 
 
 const Home: NextPage = () => {
