@@ -1,2 +1,2 @@
-export { IChatContextState, ISocketContextAction, ISocketContextState, ChatContextActionType, IChatContextAction } from './context/context'
+export { IChatContextState, IContextAction, ISocketContextAction, AppContextIntialStateType, AuthContextActionType, IAuthContextAction, SocketContextActionType, ChatContextActionType, IChatContextAction } from './context'
 export { InpointConfig, NavigationConfigType, inpointTabItem } from './config/inpoint.config'

@@ -6,6 +6,13 @@ export const useSocket = (
     url: string,
     opts?: Partial<ManagerOptions & SocketOptions> | undefined
 ): Socket => {
+    console.log(process.env.NODE_ENV);
+
+    if (process.env.NODE_ENV == "development") {
+        if (!url) {
+            throw new Error("You Must Pass A Valid Url To Connect Socket Server !")
+        }
+    }
     const { current: socket } = useRef(io(url, opts));
     useEffect(() => {
         return () => {

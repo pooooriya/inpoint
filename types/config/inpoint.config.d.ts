@@ -1,4 +1,12 @@
 export interface InpointConfig {
+    components: InpointComponentConfig
+    connectionStrings: InpointConnections
+}
+
+export interface InpointConnections {
+    socketURL: string
+}
+export interface InpointComponentConfig {
     navigations: NavigationConfigType[]
     tabs: inpointTabItem[]
 }

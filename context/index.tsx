@@ -1,7 +1,9 @@
 import { ChatReducer } from './chat/chat.reducer';
-import { createContext, PropsWithChildren, useReducer } from "react";
-import { AppContextIntialStateType, IContextAction } from 'types/context/context';
+import { createContext, PropsWithChildren, useEffect, useReducer } from "react";
+import { AppContextIntialStateType, IContextAction } from 'types/context';
 import { SocketReducer } from './socket/socket.reducer';
+import { useSocket } from 'hooks/useSocket';
+import Config from 'inpoint.config';
 
 const initialState: AppContextIntialStateType = {
     chats: {
@@ -21,14 +23,22 @@ const AppContext = createContext<{
     dispatch: () => null
 });
 
-const mainReducer = ({ chats, socket }: AppContextIntialStateType, action: any) => ({
-    chats: ChatReducer(chats, action),
-    socket: SocketReducer(socket, action)
+const combineReducer = (state: AppContextIntialStateType, action: any) => ({
+    chats: ChatReducer(state, action),
+    socket: SocketReducer(state, action)
 });
 
 interface AppContextProviderProps extends PropsWithChildren { }
 const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ children }): JSX.Element => {
-    const [state, dispatch] = useReducer(mainReducer, initialState);
+    // const [state, dispatch] = useReducer(combineReducer, initialState);
+    const socket = useSocket(Config.connectionStrings.socketURL, {
+        transports: ["websocket"]
+    });
+
+    useEffect(() => {
+
+    }, [])
+
     return (
         <AppContext.Provider value={{ state, dispatch }}>
             {children}

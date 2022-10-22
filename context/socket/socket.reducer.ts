@@ -1,8 +1,7 @@
 import { Socket } from "socket.io-client";
-import { ISocketContextAction, ISocketContextState } from "types";
-import { SocketContextActionType } from "types/context/context";
+import { ISocketContextAction, SocketContextActionType, AppContextIntialStateType } from "types";
 
-export const SocketReducer = (state: Socket | undefined, action: ISocketContextAction): ISocketContextState => {
+export const SocketReducer = (state: AppContextIntialStateType, action: ISocketContextAction): AppContextIntialStateType => {
     switch (action.type) {
         case SocketContextActionType.SOCKET_UPDATED:
             return { ...state, socket: action.payload as Socket }

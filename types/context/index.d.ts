@@ -46,7 +46,7 @@ export enum ChatContextActionType {
     PRIVATE_MODE_CHAT_DEACTIVATED = "PRIVATE_MODE_CHAT_DEACTIVATED",
 }
 
-export interface IChatContextAction extends IContextAction<ChatContextActionType, any> { }
+export interface IChatContextAction extends IContextAction<ChatContextActionType, IChatContextState> { }
 
 
 export interface IContextAction<T, K> {
@@ -60,7 +60,7 @@ export enum SocketContextActionType {
      */
     SOCKET_UPDATED = "SOCKET_UPDATED"
 }
-export interface ISocketContextAction extends IContextAction<SocketContextActionType, any> { }
+export interface ISocketContextAction extends IContextAction<SocketContextActionType, Socket | undefined> { }
 
 export enum AuthContextActionType {
     /**
