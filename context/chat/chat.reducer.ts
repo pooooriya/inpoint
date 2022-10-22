@@ -1,16 +1,17 @@
-import { IChatContextAction, IChatContextState } from "types";
+import { ChatContextActionType, IChatContextAction, IChatContextState } from "types";
 export const ChatReducer = (state: IChatContextState, action: IChatContextAction): IChatContextState => {
     switch (action.type) {
-        case "add_to_public_messages":
+        case ChatContextActionType.NEW_MESSAGES_ADDED_TO_PUBLIC_CHAT:
             return { ...state, publicMessages: action.payload }
-        case "add_to_private_messages":
+        case ChatContextActionType.NEW_MESSAGES_ADDED_TO_PRIVATE_CHAT:
             return { ...state, privateMessages: action.payload }
-        case "public_chat_activated":
-        case "private_chat_deactivated":
+        case ChatContextActionType.PRIVATE_MODE_CHAT_DEACTIVATED:
             return { ...state, isPrivate: false }
-        case "chat_disabled":
+        case ChatContextActionType.CHAT_ROOM_GENERALLY_DISABLED:
             return { ...state, isActive: false }
-        case "private_chat_activated":
+        case ChatContextActionType.CHAT_ROOM_GENERALLY_ACTIVATED:
+            return { ...state, isActive: true }
+        case ChatContextActionType.PRIVATE_MODE_CHAT_ACTIVATED:
             return { ...state, isPrivate: true }
         default:
             return state;
