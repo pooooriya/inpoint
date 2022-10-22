@@ -77,7 +77,7 @@ export const Navigation = () => {
                 </h5>
             </div>
             <div className="flex flex-wrap justify-center items-center p-2 content-start overflow-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-700">
-                {Config.navigations.map((nav) => (
+                {Config?.components?.navigations?.map((nav) => (
                     <div className="h-[100px] w-4/12 flex justify-center items-center p-2">
                         <NavigationTail key={nav.id} title={nav.name} icon={nav.icon} onClick={() => handleClickTail(nav.slug, nav.type, nav.name)} />
                     </div>

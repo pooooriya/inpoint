@@ -1,3 +1,5 @@
+import { IconType } from "react-icons"
+
 export interface InpointConfig {
     components: InpointComponentConfig
     connectionStrings: InpointConnections

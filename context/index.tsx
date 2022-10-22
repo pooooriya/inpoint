@@ -1,6 +1,6 @@
 import { ChatReducer } from './chat/chat.reducer';
 import { createContext, PropsWithChildren, useEffect, useReducer } from "react";
-import { AppContextIntialStateType, IContextAction } from 'types/context';
+import { AppContextIntialStateType, ChatContextActionType, IContextAction, SocketContextActionType } from 'types';
 import { SocketReducer } from './socket/socket.reducer';
 import { useSocket } from 'hooks/useSocket';
 import Config from 'inpoint.config';
@@ -23,14 +23,33 @@ const AppContext = createContext<{
     dispatch: () => null
 });
 
-const combineReducer = (state: AppContextIntialStateType, action: any) => ({
-    chats: ChatReducer(state, action),
-    socket: SocketReducer(state, action)
+const combineReducer = ({ chats, socket }: AppContextIntialStateType, action: any) => ({
+    chats: ChatReducer(chats, action),
+    socket: SocketReducer(socket, action)
 });
 
 interface AppContextProviderProps extends PropsWithChildren { }
 const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ children }): JSX.Element => {
-    // const [state, dispatch] = useReducer(combineReducer, initialState);
+    const [state, dispatch] = useReducer(combineReducer, initialState);
+    useEffect(() => {
+        dispatch({
+            type: SocketContextActionType.SOCKET_UPDATED,
+            payload: "injaaaaaaaaaaaaaaaaaaa"
+        });
+        dispatch({
+            type: ChatContextActionType.PRIVATE_MODE_CHAT_ACTIVATED,
+        });
+        dispatch({
+            type: ChatContextActionType.NEW_MESSAGES_ADDED_TO_PRIVATE_CHAT,
+            payload: {
+                id: 1, text: "injaaaaaaaa"
+            }
+        });
+        return () => {
+            console.log("CleanUp")
+        };
+
+    }, [])
     const socket = useSocket(Config.connectionStrings.socketURL, {
         transports: ["websocket"]
     });
