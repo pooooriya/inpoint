@@ -55,21 +55,19 @@ export interface IContextAction<T, K> {
 }
 
 export enum SocketContextActionType {
+    /**
+     * وقتی سوکت متصل میشود آبجکت آن با این ایونت ذخیره میشود
+     */
     SOCKET_UPDATED = "SOCKET_UPDATED"
 }
 export interface ISocketContextAction extends IContextAction<SocketContextActionType, any> { }
 
-export type AuthContextActionType =
-    "user_already_joined" |
-    "user_successfully_join_room" |
-    ""
+export enum AuthContextActionType {
+    /**
+   * زمانی که کاربر مجددا سعی میکند وارد روم شود در صورتی که قبلا وارد شده است
+   */
+    USER_ALREADY_EXIST = "USER_ALREADY_EXIST",
+}
+
 
 export interface IAuthContextAction extends IContextAction<AuthContextActionType, any> { }
-
-// type UserContextState = {
-//     userId: string;
-//     role: string;
-//     name: string;
-//     accessToken: string;
-//     isAuthenitcated: boolean
-// }

@@ -1,11 +1,11 @@
 
-export const AuthReducer = (state, action) => {
-    switch (action.type) {
-        case value:
+// export const AuthReducer = (state, action) => {
+//     switch (action.type) {
+//         case value:
 
-            break;
+//             break;
 
-        default:
-            break;
-    }
-}
+//         default:
+//             break;
+//     }
+// }
