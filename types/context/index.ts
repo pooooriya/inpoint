@@ -58,7 +58,7 @@ export enum SocketContextActionType {
     /**
      * وقتی سوکت متصل میشود آبجکت آن با این ایونت ذخیره میشود
      */
-    SOCKET_UPDATED = "SOCKET_UPDATED"
+    SOCKET_CONNECTED = "SOCKET_CONNECTED"
 }
 export interface ISocketContextAction extends IContextAction<SocketContextActionType, Socket | undefined> { }
 

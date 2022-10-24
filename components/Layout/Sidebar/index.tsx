@@ -18,7 +18,7 @@ export const Sidebar = (props: SidebarProps) => {
             </div>
             <Tab.Group>
                 <Tab.List className="flex relative text-sm items-center pt-3 border-b-2 border-primary-900 text-primary-300 font-semibold w-full">
-                    {Config?.tabs?.map(({ id, name }) => (
+                    {Config?.components?.tabs?.map(({ id, name }) => (
                         <Tab as={Fragment} key={id}>
                             {({ selected }) => (
                                 <div className="outline-none">

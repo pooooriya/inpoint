@@ -1,6 +1,6 @@
 import { ChatReducer } from './chat/chat.reducer';
-import { createContext, PropsWithChildren, useEffect, useReducer } from "react";
-import { AppContextIntialStateType, ChatContextActionType, IContextAction, SocketContextActionType } from 'types';
+import { createContext, PropsWithChildren, useEffect, useReducer, useState } from "react";
+import { AppContextIntialStateType, ChatContextActionType, IContextAction, SocketContextActionType, SocketListenerEvents } from 'types';
 import { SocketReducer } from './socket/socket.reducer';
 import { useSocket } from 'hooks/useSocket';
 import Config from 'inpoint.config';
@@ -31,31 +31,59 @@ const combineReducer = ({ chats, socket }: AppContextIntialStateType, action: an
 interface AppContextProviderProps extends PropsWithChildren { }
 const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ children }): JSX.Element => {
     const [state, dispatch] = useReducer(combineReducer, initialState);
-    useEffect(() => {
-        dispatch({
-            type: SocketContextActionType.SOCKET_UPDATED,
-            payload: "injaaaaaaaaaaaaaaaaaaa"
-        });
-        dispatch({
-            type: ChatContextActionType.PRIVATE_MODE_CHAT_ACTIVATED,
-        });
-        dispatch({
-            type: ChatContextActionType.NEW_MESSAGES_ADDED_TO_PRIVATE_CHAT,
-            payload: {
-                id: 1, text: "injaaaaaaaa"
-            }
-        });
-        return () => {
-            console.log("CleanUp")
-        };
-
-    }, [])
+    const [isLoading, setIsLoading] = useState(true);
     const socket = useSocket(Config.connectionStrings.socketURL, {
-        transports: ["websocket"]
+        transports: ["websocket"],
+        reconnectionAttempts: 10,
+        reconnectionDelay: 5000,
+        autoConnect: false
     });
 
-    useEffect(() => {
+    const handleSocketConnect = () => {
+        //1.connect socket 
+        socket.connect();
 
+        //2.listen to general events on sockets built on top of socket-io-client
+        socket.on(SocketListenerEvents.SOCKET_CONNECTED, () => {
+            //set false to loading
+            setIsLoading(false);
+            //update context to make socket accessible from everywhere
+            dispatch({ type: SocketContextActionType.SOCKET_CONNECTED, payload: socket })
+            console.log("user connected successfuly !!!!!!!!!!!!");
+        })
+
+        //3.handle socket dissconnect
+        socket.on(SocketListenerEvents.SOCKET_DISCONNECTED, function () {
+            console.log('user disconnected');
+        });
+
+    }
+
+    const handleDefaultSocketIoEvents = () => {
+        // socket.io.on("error", (err: Error) => {
+        //     console.log("socket has error");
+        // })
+        socket.io.on("reconnect", (attemp) => {
+            console.log("reconnect_successfully");
+        })
+        socket.io.on("reconnect_attempt", (attemp) => {
+            console.log(attemp, "*********************");
+        })
+        socket.io.on("reconnect_failed", () => {
+            console.log("reconnect_failed !!!");
+        })
+    }
+
+    const handleSocketDispose = () => {
+        socket.off();
+        socket.disconnect();
+    }
+    useEffect(() => {
+        //1.connect to socket 
+        handleSocketConnect();
+        //2.handle default socket.io-client events
+        handleDefaultSocketIoEvents();
+        return () => handleSocketDispose();
     }, [])
 
     return (
