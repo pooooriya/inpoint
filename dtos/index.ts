@@ -1,0 +1,1 @@
+export { JoinRoomEmitter } from './socket/emitters/joinroom.emitter.dto'

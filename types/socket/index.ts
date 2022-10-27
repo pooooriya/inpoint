@@ -11,5 +11,28 @@ export enum SocketListenerEvents {
     /**
      * زمانی که چت خصوصی از سمت سیستم ارسال شود 
      */
-    NEW_PRIVATE_MESSAGE_RECIEVED = "pmessage"
+    GET_ALL_MESSAGES = "pmessage",
+
+}
+
+
+export enum SocketEventEmitter {
+    /** 
+     * زمانی که کاربر وارد روم میشود این ایونت استفاده میشود
+      */
+    USER_JOIN_ROOM = "joinRoom"
+}
+
+export enum NotificationTypes {
+    NOTIFICATION = "NOTIFICATION",
+    MESSAGE = "MESSAGE"
+}
+
+export interface ISocketChatResponse {
+    fullName: string,
+    text: string,
+    type: NotificationTypes
+    time: string,
+    messageId: number,
+    room: string
 }

@@ -1,18 +1,27 @@
 import { ChatReducer } from './chat/chat.reducer';
 import { createContext, PropsWithChildren, useEffect, useReducer, useState } from "react";
-import { AppContextIntialStateType, ChatContextActionType, IContextAction, SocketContextActionType, SocketListenerEvents } from 'types';
+import { AppContextIntialStateType, IContextAction, Roles, SocketContextActionType, SocketListenerEvents } from 'types';
 import { SocketReducer } from './socket/socket.reducer';
 import { useSocket } from 'hooks/useSocket';
 import Config from 'inpoint.config';
+import { SocketEventEmitter } from 'types';
+import { JoinRoomEmitter } from 'dtos';
+import { NotificationReducer } from './notification/notification.reducer';
+import { ChatContextActionType, NotificationType } from 'types/context';
+import { Button, LoadingButton } from 'components/Forms/Button';
+import { ISocketChatResponse, NotificationTypes } from 'types/socket';
 
 const initialState: AppContextIntialStateType = {
     chats: {
         isActive: false,
         isPrivate: false,
-        privateMessages: [],
-        publicMessages: []
+        messages: []
     },
-    socket: undefined
+    socket: undefined,
+    notification: {
+        isShow: false,
+        message: null
+    }
 }
 
 const AppContext = createContext<{
@@ -23,9 +32,10 @@ const AppContext = createContext<{
     dispatch: () => null
 });
 
-const combineReducer = ({ chats, socket }: AppContextIntialStateType, action: any) => ({
+const combineReducer = ({ chats, socket, notification }: AppContextIntialStateType, action: any) => ({
     chats: ChatReducer(chats, action),
-    socket: SocketReducer(socket, action)
+    socket: SocketReducer(socket, action),
+    notification: NotificationReducer(notification, action)
 });
 
 interface AppContextProviderProps extends PropsWithChildren { }
@@ -34,44 +44,105 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
     const [isLoading, setIsLoading] = useState(true);
     const socket = useSocket(Config.connectionStrings.socketURL, {
         transports: ["websocket"],
-        reconnectionAttempts: 10,
+        reconnectionAttempts: 5,
         reconnectionDelay: 5000,
         autoConnect: false
     });
 
     const handleSocketConnect = () => {
+        //todo: get data from api first and then connect to socket
         //1.connect socket 
         socket.connect();
 
-        //2.listen to general events on sockets built on top of socket-io-client
-        socket.on(SocketListenerEvents.SOCKET_CONNECTED, () => {
+        //2.listen to general events on sockets 
+        socket.on<SocketListenerEvents>(SocketListenerEvents.SOCKET_CONNECTED, () => {
             //set false to loading
             setIsLoading(false);
             //update context to make socket accessible from everywhere
             dispatch({ type: SocketContextActionType.SOCKET_CONNECTED, payload: socket })
-            console.log("user connected successfuly !!!!!!!!!!!!");
+            //
         })
 
-        //3.handle socket dissconnect
-        socket.on(SocketListenerEvents.SOCKET_DISCONNECTED, function () {
-            console.log('user disconnected');
+        //2.1.handle socket dissconnect
+        socket.on<SocketListenerEvents>(SocketListenerEvents.SOCKET_DISCONNECTED, function () {
+            dispatch({
+                type: NotificationType.NOTIFICATION_RAISED, payload: <>
+                    <span>{Config.notifications.user_disconnected_message.message}</span>
+                    <span className='text-sm mb-3 mt-1'>{Config.notifications.user_disconnected_message.description}</span>
+                    <LoadingButton className='ml-2 w-10 h-10' />
+                </>
+            })
         });
 
+        //2.2.user joined room event emit to socket to keep track user in our system
+        socket.emit<SocketEventEmitter>(SocketEventEmitter.USER_JOIN_ROOM, new JoinRoomEmitter({
+            fullName: "پوریا باباعلی",
+            room: "inpointconnect",
+            type: Roles.TEACHER,
+            uuid: "7b10d112-2a38-411f-94dc-1b5fa64aa534"
+        }))
     }
 
     const handleDefaultSocketIoEvents = () => {
-        // socket.io.on("error", (err: Error) => {
-        //     console.log("socket has error");
-        // })
-        socket.io.on("reconnect", (attemp) => {
-            console.log("reconnect_successfully");
-        })
-        socket.io.on("reconnect_attempt", (attemp) => {
-            console.log(attemp, "*********************");
+        socket.io.on("reconnect", () => {
+            dispatch({ type: NotificationType.CLEAR_NOTIFICATION })
         })
         socket.io.on("reconnect_failed", () => {
-            console.log("reconnect_failed !!!");
+            dispatch({
+                type: NotificationType.NOTIFICATION_RAISED, payload: (
+                    <div className='flex flex-col justify-center text-center'>
+                        <span>{Config.notifications.user_retry_connection_failed_message.message}</span>
+                        <span className='text-sm mb-3 mt-1'>{Config.notifications.user_retry_connection_failed_message.description}</span>
+                        <div className='mt-3'>
+                            <Button title={Config.notifications.user_retry_connection_failed_message.buttonText} variant='primary' />
+                        </div>
+                    </div>
+                )
+            })
         })
+    }
+
+    const handleChatEvents = () => {
+        socket.on<SocketListenerEvents>(SocketListenerEvents.NEW_MESSAGE_RECIEVED, function (data: ISocketChatResponse) {
+            if (data?.type === NotificationTypes.MESSAGE) {
+                dispatch({
+                    type: ChatContextActionType.NEW_MESSAGE_RECEIVED,
+                    payload: data
+                })
+            } else if (
+                data?.type === NotificationTypes.NOTIFICATION &&
+                data.text === "چت غیر فعال شد"
+            ) {
+                dispatch({
+                    type: ChatContextActionType.CHAT_ROOM_GENERALLY_DISABLED,
+                })
+            } else if (data?.type === NotificationTypes.NOTIFICATION && data.text === "چت فعال شد") {
+                dispatch({
+                    type: ChatContextActionType.CHAT_ROOM_GENERALLY_ACTIVATED,
+                })
+            } else if (
+                data?.type === NotificationTypes.NOTIFICATION &&
+                data?.text === "پیام خصوصی فعال شد"
+            ) {
+                dispatch({
+                    type: ChatContextActionType.PRIVATE_MODE_CHAT_ACTIVATED,
+                })
+            } else if (
+                data?.type === NotificationTypes.NOTIFICATION &&
+                data?.text === "پیام خصوصی غیر فعال شد"
+            ) {
+                dispatch({
+                    type: ChatContextActionType.PRIVATE_MODE_CHAT_ACTIVATED,
+                })
+            }
+        });
+
+        socket.on<SocketListenerEvents>(SocketListenerEvents.GET_ALL_MESSAGES, function (data: ISocketChatResponse[]) {
+            dispatch({
+                type: ChatContextActionType.GET_ALL_MESSAGES_CHAT,
+                payload: data
+            })
+        });
     }
 
     const handleSocketDispose = () => {
@@ -83,6 +154,8 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
         handleSocketConnect();
         //2.handle default socket.io-client events
         handleDefaultSocketIoEvents();
+        //3.handle chats events
+        handleChatEvents();
         return () => handleSocketDispose();
     }, [])
 

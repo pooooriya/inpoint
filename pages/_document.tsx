@@ -5,6 +5,7 @@ export default function Document() {
         <Html lang='fa' dir='rtl' className='dark'>
             <Head />
             <body>
+                <div id="inpoint_notification" />
                 <Main />
                 <NextScript />
             </body>

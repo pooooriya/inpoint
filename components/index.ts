@@ -5,4 +5,4 @@ export { Participant } from './Participant'
 export { Setting } from './Setting'
 export { Drawer } from './Drawer'
 export { ChatRoom } from './Chat/ChatRoom'
-
+export { NotificationPortal } from './NotificationPortal'

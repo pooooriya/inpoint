@@ -23,7 +23,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "context/notification/notification.reducer.tss"
   ],
   "exclude": [
     "node_modules"

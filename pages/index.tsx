@@ -1,4 +1,5 @@
 import { Layout } from 'components'
+import { OverlayNotification } from 'components/OverlayNotification'
 import { AppContext } from 'context'
 import type { NextPage } from 'next'
 import { useContext, useEffect } from 'react'
@@ -9,20 +10,10 @@ const Home: NextPage = () => {
   const state = useContext(AppContext).state;
   const dispatch = useContext(AppContext).dispatch;
   console.log(state);
-  useEffect(() => {
-    dispatch({
-      type: ChatContextActionType.NEW_MESSAGES_ADDED_TO_PRIVATE_CHAT,
-      payload: {
-        id: 2, text: "injaaaaaaaa"
-      }
-    });
-    () => {
-      console.log("CleanUp")
-    };
-  }, [])
 
   return (
-    <Layout>hello</Layout>
+    <Layout>
+    </Layout>
   )
 }
 

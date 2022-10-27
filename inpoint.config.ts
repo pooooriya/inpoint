@@ -27,6 +27,17 @@ const Config: InpointConfig = {
     },
     connectionStrings: {
         socketURL: process.env["SOCKET_URL"] ?? "http://188.121.121.8:3002"
+    },
+    notifications: {
+        user_disconnected_message: {
+            message: "متاسفانه ارتباط شما با سیستم قطع شد",
+            description: "لطفا اتصال خود را بررسی کنید",
+        },
+        user_retry_connection_failed_message: {
+            message: "متاسفانه نتوانستیم به سرور متصل شویم لطفا مجددا تلاش کنید",
+            description: "برای اتصال مجدد گزینه پایین را کلیک کنید",
+            buttonText: "اتصال مجدد"
+        },
     }
 }
 

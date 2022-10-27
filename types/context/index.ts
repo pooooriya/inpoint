@@ -1,13 +1,14 @@
 import { Socket } from 'socket.io-client';
+import { ISocketChatResponse } from 'types/socket';
 
 export type AppContextIntialStateType = {
     chats: IChatContextState
     socket: Socket | undefined
+    notification: INotificationContextState
 }
 
 export interface IChatContextState {
-    publicMessages: any
-    privateMessages: any
+    messages: ISocketChatResponse[]
     isPrivate: boolean
     isActive: boolean
 }
@@ -21,13 +22,13 @@ export interface IChatContextState {
  */
 export enum ChatContextActionType {
     /**
-      زمانی که چت جدیدی به قسمت چت عمومی اضافه شود
+      در زمان شروع استریم تمامی چت ها را دریافت میکند
      */
-    NEW_MESSAGES_ADDED_TO_PUBLIC_CHAT = 'NEW_MESSAGES_ADDED_TO_PUBLIC_CHAT',
+    GET_ALL_MESSAGES_CHAT = 'GET_ALL_MESSAGES_CHAT',
     /**
-   * زمانی که چت جدیدی به قسمت چت خصوصی اضافه شود
-   */
-    NEW_MESSAGES_ADDED_TO_PRIVATE_CHAT = 'NEW_MESSAGES_ADDED_TO_PRIVATE_CHAT',
+در حین استریم چت ها را دونه به دونه دریافت میکند
+*/
+    NEW_MESSAGE_RECEIVED = 'NEW_MESSAGE_RECEIVED',
     /**
 * زمانی که چت به شکل کامل غیرفعال میشود
 */
@@ -46,7 +47,7 @@ export enum ChatContextActionType {
     PRIVATE_MODE_CHAT_DEACTIVATED = "PRIVATE_MODE_CHAT_DEACTIVATED",
 }
 
-export interface IChatContextAction extends IContextAction<ChatContextActionType, IChatContextState> { }
+export interface IChatContextAction extends IContextAction<ChatContextActionType, any> { }
 
 
 export interface IContextAction<T, K> {
@@ -69,5 +70,20 @@ export enum AuthContextActionType {
     USER_ALREADY_EXIST = "USER_ALREADY_EXIST",
 }
 
+export interface IAuthContextState {
+    name: string,
+    userId: string,
+    role: string,
+}
 
+export enum NotificationType {
+    NOTIFICATION_RAISED = "NOTIFICATION_RAISED",
+    CLEAR_NOTIFICATION = "CLEAR_NOTIFICATION",
+}
+
+export interface INotificationContextState {
+    message: React.ReactNode,
+    isShow: boolean,
+};
+export interface INotificationContextAction extends IContextAction<NotificationType, any> { }
 export interface IAuthContextAction extends IContextAction<AuthContextActionType, any> { }
