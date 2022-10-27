@@ -1,8 +1,7 @@
 import { NavigationTail } from "../NavigationTail"
 import Config from 'inpoint.config';
 import { HiUserGroup } from "react-icons/hi";
-import { ChatRoom } from "components/Chat";
-import { Drawer, Participant, Setting } from "components";
+import { Chat, Drawer, Participant, Setting } from "components";
 import { NavigationOverlay } from "../NavigationOverlay";
 import React, { useCallback, useState } from "react";
 import { Poll } from "components/Poll";
@@ -10,7 +9,7 @@ import { Poll } from "components/Poll";
 const handleNavigationOverlay = (type: Pick<NavigationConfigType, "slug">[keyof Pick<NavigationConfigType, "slug">]): JSX.Element | null => {
     switch (type) {
         case "chats":
-            return (<ChatRoom />)
+            return (<Chat />)
         case "participants":
             return (<Participant />)
         case "settings":
