@@ -1,9 +1,11 @@
-import { ChangeEvent, useRef, useState } from "react"
+import { ChangeEvent, Dispatch, SetStateAction, TextareaHTMLAttributes, useRef, useState } from "react"
 
-type TextAreaProps = {
+interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
     placeholder?: string
     rows?: number
     type?: "transparent" | "primary"
+    textHeight: number,
+    setTextHeight: Dispatch<SetStateAction<number>>
 }
 
 const style = {
@@ -11,25 +13,28 @@ const style = {
     primary: "p-3 py-1 w-full outline-none bg-primary-600 font-bold placeholder:text-primary-1000 bg-opacity-80 rounded-lg text-sm bg-transparent"
 }
 
-export const TextArea = ({ placeholder, rows = 5, type = "transparent" }: TextAreaProps): JSX.Element => {
-    const [textHeight, setTextHeight] = useState(type != 'primary' ? 1 : rows);
+export const TextArea = ({ placeholder, textHeight, setTextHeight, type = "transparent", ...rest }: TextAreaProps): JSX.Element => {
     const IntialScroll = useRef<number>()
-    function handleChange(event: ChangeEvent<HTMLTextAreaElement>): void {
+
+    function handleChange(event: any): void {
         if (type != "primary") {
+
             const height = event.target.scrollHeight;
+
             if (!event.target.value) {
                 setTextHeight(1);
             }
             if (!IntialScroll.current) {
                 IntialScroll.current = height;
             }
+
             if (height != IntialScroll.current && event.target.value) {
                 setTextHeight(2);
             }
         }
     }
     return (
-        <textarea rows={textHeight} className={style[type]} placeholder={placeholder} onChange={handleChange} />
+        <textarea rows={textHeight} onChangeCapture={handleChange} className={style[type]} placeholder={placeholder} {...rest} />
     )
 }
 

@@ -18,9 +18,14 @@ export type InpointNotificationPayload = {
 export interface InpointConnections {
     socketURL: string
 }
+
+export interface InpointChatPayload {
+    chat_disable_text: string
+}
 export interface InpointComponentConfig {
     navigations: NavigationConfigType[]
     tabs: inpointTabItem[]
+    chat: InpointChatPayload
 }
 
 export type NavigationConfigType = {

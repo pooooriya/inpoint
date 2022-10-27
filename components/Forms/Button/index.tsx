@@ -9,11 +9,12 @@ interface CustomButtonProps {
     icon?: React.ReactNode
     loading?: boolean
     outlined?: boolean
+    disabled?: boolean
 };
 
 export interface ButtonProps extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>, React.AriaAttributes, CustomButtonProps { }
 
-const { btn, btn_icon, btn_primary, btn_primary_outline, btn_secondary_outline, btn_danger_outline, btn_danger, btn_secondary }: Record<string, string> = {
+const { btn, btn_icon, btn_disabled, btn_primary, btn_primary_outline, btn_secondary_outline, btn_danger_outline, btn_danger, btn_secondary }: Record<string, string> = {
     btn: "px-4 py-1 rounded-xl font-medium outline-none text-sm hover:bg-opacity-50 hover:border-transparent hover:transition-colors hover:duration-300",
     btn_icon: "px-2 py-2 rounded-full px-0",
     btn_primary: "bg-primary-700 border-primary-700 border-2 ",
@@ -22,6 +23,7 @@ const { btn, btn_icon, btn_primary, btn_primary_outline, btn_secondary_outline, 
     btn_primary_outline: "bg-transparent hover:bg-primary-700",
     btn_danger_outline: "bg-danger hover:bg-danger",
     btn_secondary_outline: "bg-secondary hover:bg-secondary",
+    btn_disabled: "bg-gray-400 cursor-not-allowed "
 }
 
 export const LoadingButton = ({ className }: { className?: string }): JSX.Element => {
@@ -33,7 +35,7 @@ export const LoadingButton = ({ className }: { className?: string }): JSX.Elemen
     )
 }
 
-export const Button = ({ variant, title, icon, loading, className, outlined, ...props }: ButtonProps) => {
+export const Button = ({ variant, title, icon, loading, className, outlined, disabled, ...props }: ButtonProps) => {
 
     if (!process.env.production) {
         if (variant == 'icon') {
@@ -68,7 +70,7 @@ export const Button = ({ variant, title, icon, loading, className, outlined, ...
                 </div>
             </button>)
         case "icon":
-            return (<button className={cs(btn_icon, className)} {...props} >
+            return (<button className={cs(btn_icon, disabled && btn_disabled, className)} {...props} >
                 <div className="flex justify-centers items-center ">
                     {loading ? <LoadingButton className='ml-2' /> : icon}
                 </div>

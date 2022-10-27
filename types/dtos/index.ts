@@ -6,3 +6,9 @@ export interface IJoinRoomEmitter {
     uuid: string,
     type: Roles
 }
+
+export interface ISendMessageEmitter {
+    type: Roles,
+    room: string,
+    text: string
+}

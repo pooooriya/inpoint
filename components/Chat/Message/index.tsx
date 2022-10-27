@@ -15,7 +15,6 @@ const Message = ({ text, time, fullname }: MessageProps) => {
         <div className="p-3 bg-primary-1000 flex flex-col rounded-lg hover:bg-primary-900 transition-colors duration-200">
             <div className='flex justify-between items-center  font-normal text-primary-500'>
                 <h6 className='text-xs'>{fullname}</h6>
-
                 <div className='flex items-center justify-center'>
                     <h6 className=' ml-1 text-xs'>{timeAgo(moment(time).locale('fa').format('YYYY/M/D HH:mm:ss'))}</h6>
                     <DropDown Icon={<FiMoreVertical />} Type="icon" >
@@ -23,7 +22,7 @@ const Message = ({ text, time, fullname }: MessageProps) => {
                     </DropDown>
                 </div>
             </div>
-            <p dir='auto' className='text-primary-400 mt-2 text-sm'>{text}</p>
+            <p dir='auto' className='text-primary-400 mt-2 text-sm break-all'>{text}</p>
         </div>
     )
 }

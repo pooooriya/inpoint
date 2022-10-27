@@ -6,6 +6,9 @@ import { InpointConfig } from 'types'
 
 const Config: InpointConfig = {
     components: {
+        chat: {
+            chat_disable_text: "امکان ارسال چت توسط میزبان غیر فعال شد"
+        },
         navigations: [
             { id: 1, name: "گفتگو ها", icon: BsFillChatQuoteFill, type: "navigation", slug: "chats" },
             { id: 2, name: "شرکت کنندگان", icon: HiUserGroup, type: "navigation", slug: "participants" },
@@ -38,7 +41,7 @@ const Config: InpointConfig = {
             description: "برای اتصال مجدد گزینه پایین را کلیک کنید",
             buttonText: "اتصال مجدد"
         },
-    }
+    },
 }
 
 export default Config;

@@ -20,7 +20,12 @@ export enum SocketEventEmitter {
     /** 
      * زمانی که کاربر وارد روم میشود این ایونت استفاده میشود
       */
-    USER_JOIN_ROOM = "joinRoom"
+    USER_JOIN_ROOM = "joinRoom",
+    /**
+      * ارسال پیام به سمت سیستم از طریق چت
+      */
+    SEND_NEW_MESSAGE = "chatMessage"
+
 }
 
 export enum NotificationTypes {

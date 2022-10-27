@@ -13,7 +13,7 @@ import { ISocketChatResponse, NotificationTypes } from 'types/socket';
 
 const initialState: AppContextIntialStateType = {
     chats: {
-        isActive: false,
+        isActive: true,
         isPrivate: false,
         messages: []
     },
