@@ -10,6 +10,7 @@ import { NotificationReducer } from './notification/notification.reducer';
 import { ChatContextActionType, NotificationType } from 'types/context';
 import { Button, LoadingButton } from 'components/Forms/Button';
 import { ISocketChatResponse, NotificationTypes } from 'types/socket';
+import { toast } from 'react-toastify';
 
 const initialState: AppContextIntialStateType = {
     chats: {
@@ -41,7 +42,6 @@ const combineReducer = ({ chats, socket, notification }: AppContextIntialStateTy
 interface AppContextProviderProps extends PropsWithChildren { }
 const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ children }): JSX.Element => {
     const [state, dispatch] = useReducer(combineReducer, initialState);
-    const [isLoading, setIsLoading] = useState(true);
     const socket = useSocket(Config.connectionStrings.socketURL, {
         transports: ["websocket"],
         reconnectionAttempts: 5,
@@ -53,14 +53,17 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
         //todo: get data from api first and then connect to socket
         //1.connect socket 
         socket.connect();
-
         //2.listen to general events on sockets 
         socket.on<SocketListenerEvents>(SocketListenerEvents.SOCKET_CONNECTED, () => {
-            //set false to loading
-            setIsLoading(false);
             //update context to make socket accessible from everywhere
             dispatch({ type: SocketContextActionType.SOCKET_CONNECTED, payload: socket })
-            //
+            //raise notification when socket is connected
+            toast.success(<h5 className='text-md'>{Config.notifications.user_connect_to_socket}</h5>, {
+                delay: 2000,
+                hideProgressBar: true,
+                position: "top-center",
+                closeButton: false,
+            })
         })
 
         //2.1.handle socket dissconnect
@@ -70,6 +73,7 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
                     <span>{Config.notifications.user_disconnected_message.message}</span>
                     <span className='text-sm mb-3 mt-1'>{Config.notifications.user_disconnected_message.description}</span>
                     <LoadingButton className='ml-2 w-10 h-10' />
+                    <span className='text-sm'>{Config.notifications.user_disconnected_message.buttonText}</span>
                 </>
             })
         });
@@ -140,7 +144,7 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
         socket.on<SocketListenerEvents>(SocketListenerEvents.GET_ALL_MESSAGES, function (data: ISocketChatResponse[]) {
             dispatch({
                 type: ChatContextActionType.GET_ALL_MESSAGES_CHAT,
-                payload: data
+                payload: data.sort((a, b) => Date.parse(a.time) - Date.parse(b.time))
             })
         });
     }

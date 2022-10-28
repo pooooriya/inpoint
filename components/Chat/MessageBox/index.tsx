@@ -1,7 +1,7 @@
 import { Button, TextArea } from "components"
 import { AppContext } from "context";
 import { SendMessageEmitter } from "dtos/socket/emitters/sendmessage.emitter.dto";
-import React, { TextareaHTMLAttributes, useContext, useRef, useState } from "react";
+import React, { memo, TextareaHTMLAttributes, useContext, useRef, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { RiSendPlaneFill } from 'react-icons/ri'
 import { Roles, SocketEventEmitter } from "types";
@@ -12,7 +12,7 @@ type FormInput = {
 
 type MessageBoxType = {
 }
-export const MessageBox = ({ }: MessageBoxType) => {
+export const MessageBox = memo(({ }: MessageBoxType) => {
     const [textHeight, setTextHeight] = useState(1);
     const { socket } = useContext(AppContext).state
     const { control, handleSubmit, formState: { errors, isDirty, isValid }, getValues, reset } = useForm<FormInput>({
@@ -41,4 +41,4 @@ export const MessageBox = ({ }: MessageBoxType) => {
             <Button type="submit" disabled={!isValid && !isDirty} variant="icon" className="mr-2 bg-secondary w-[40px] h-[40px] flex justify-center items-center hover:bg-opacity-70 cursor-pointer transition-colors !rounded-lg" icon={<RiSendPlaneFill size={25} className="-rotate-90 text-primary-200" />} />
         </form >
     )
-}
+})

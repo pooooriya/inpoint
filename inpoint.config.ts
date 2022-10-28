@@ -35,12 +35,14 @@ const Config: InpointConfig = {
         user_disconnected_message: {
             message: "متاسفانه ارتباط شما با سیستم قطع شد",
             description: "لطفا اتصال خود را بررسی کنید",
+            buttonText: "در حال تلاش برای اتصال مجدد"
         },
         user_retry_connection_failed_message: {
             message: "متاسفانه نتوانستیم به سرور متصل شویم لطفا مجددا تلاش کنید",
             description: "برای اتصال مجدد گزینه پایین را کلیک کنید",
             buttonText: "اتصال مجدد"
         },
+        user_connect_to_socket: "سیستم شما با موفقیت متصل شد"
     },
 }
 

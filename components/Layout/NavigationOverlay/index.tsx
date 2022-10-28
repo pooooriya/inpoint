@@ -20,8 +20,8 @@ export const NavigationOverlay = ({ children, title, isOpen = false, setIsOpen =
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
             >
-                <div className="absolute inset-0 z-10 bg-primary-1100 h-inherit flex flex-col">
-                    {title && (<div className="flex p-5  border-b border-primary-800 bg-primary-1000 justify-between items-center">
+                <div className="absolute inset-0 z-10 bg-primary-1100 h-inherit flex flex-col ">
+                    {title && (<div className="flex p-5 z-10 border-b border-primary-800 bg-primary-1000 justify-between items-center">
 
                         <h2 className="text-primary-300 text-sm lg:text-xl text-ellipsis overflow-hidden whitespace-nowrap">{title}</h2>
 

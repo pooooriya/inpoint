@@ -9,6 +9,7 @@ export interface InpointConfig {
 export interface InpointNotifications {
     user_disconnected_message: InpointNotificationPayload,
     user_retry_connection_failed_message: InpointNotificationPayload
+    user_connect_to_socket: string
 }
 export type InpointNotificationPayload = {
     message: string,

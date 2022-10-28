@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.centerflex {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
+/*overrides*/
+.Toastify * {
+    font-family: 'Yekan', Arial, Helvetica, sans-serif !important;
 }
