@@ -44,6 +44,11 @@ export const Sidebar = (props: SidebarProps) => {
                             <Participant />
                         </NavigationOverlay>
                     </Tab.Panel>
+                    <Tab.Panel>
+                        <NavigationOverlay isOpen={true} setIsOpen={() => { }}>
+                            <Setting />
+                        </NavigationOverlay>
+                    </Tab.Panel>
                 </div>
             </Tab.Group >
         </div >

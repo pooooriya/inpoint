@@ -1,7 +1,7 @@
 
 import { AppContext } from 'context'
 import Config from 'inpoint.config'
-import { ChangeEvent, Fragment, UIEvent, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, Fragment, UIEvent, useCallback, useContext, useEffect, useReducer, useRef, useState } from 'react'
 import Message from '../Message'
 import { MessageBox } from '../MessageBox'
 import { useForm } from "react-hook-form";
@@ -13,13 +13,15 @@ type ChatRoomProps = {
 }
 export const ChatRoom = ({ }: ChatRoomProps) => {
     const { chats } = useContext(AppContext).state;
+    const [, updateState] = useState<any>();
+    const forceUpdate = useCallback(() => updateState({}), []);
     const chatRef = useRef<HTMLUListElement>(null);
+    const perviousChatLength = useRef<number>(0);
     const rowVirtualizer = useVirtualizer({
         count: chats.messages.length,
         getScrollElement: () => chatRef.current,
-        estimateSize: () => 50,
+        estimateSize: useCallback(() => 100, []),
         overscan: 10,
-
     })
     const scrollElement = useRef<HTMLDivElement>(null);
     const [hasNewMessage, setHasNewMessage] = useState<boolean>(false);
@@ -34,6 +36,13 @@ export const ChatRoom = ({ }: ChatRoomProps) => {
         }
     }
     useEffect(() => {
+        if (!perviousChatLength.current) {
+            perviousChatLength.current = chats?.messages?.length
+        }
+        if (perviousChatLength.current > chats.messages.length) {
+            perviousChatLength.current = chats.messages.length;
+            return;
+        }
         if (!lockScroll) {
             setHasNewMessage(false);
         } else {
@@ -70,27 +79,22 @@ export const ChatRoom = ({ }: ChatRoomProps) => {
                     {rowVirtualizer.getVirtualItems().map(virtualRow => (
                         <div
                             key={virtualRow.key}
-                            ref={virtualRow.measureElement}
+                            data-index={virtualRow.index}
+                            ref={rowVirtualizer.measureElement}
                             style={{
                                 position: 'absolute',
                                 top: 0,
                                 left: 0,
                                 width: '100%',
-                                minHeight: `${virtualRow.size}px`,
                                 transform: `translateY(${virtualRow.start}px)`,
                             }}
                         >
                             <li className='av px-5 py-2' key={'message' + virtualRow.index}>
-                                <Message fullname={chats?.messages[virtualRow.index].fullName} text={chats?.messages[virtualRow.index].text} time={chats?.messages[virtualRow.index].time} />
+                                <Message id={chats?.messages[virtualRow.index].messageId} fullname={chats?.messages[virtualRow.index].fullName} text={chats?.messages[virtualRow.index].text} time={chats?.messages[virtualRow.index].time} />
                             </li>
                         </div>
 
                     ))}
-                    {/* {chats?.messages?.sort((a, b) => Date.parse(a.time) - Date.parse(b.time)).map((message, index) =>
-                (
-                   
-                ) */}
-                    {/* )} */}
                 </div>
                 <div ref={scrollElement} />
             </ul>

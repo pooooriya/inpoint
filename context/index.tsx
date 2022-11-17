@@ -7,10 +7,12 @@ import Config from 'inpoint.config';
 import { SocketEventEmitter } from 'types';
 import { JoinRoomEmitter } from 'dtos';
 import { NotificationReducer } from './notification/notification.reducer';
-import { ChatContextActionType, NotificationType } from 'types/context';
+import { ChatContextActionType, EventContextActionType, NotificationType } from 'types/context';
 import { Button, LoadingButton } from 'components/Forms/Button';
-import { ISocketChatResponse, NotificationTypes } from 'types/socket';
+import { IEventParticipantResponse, ISocketChatResponse, NotificationTypes } from 'types/socket';
 import { toast } from 'react-toastify';
+import { AuthReducer } from './auth/auth.reducer';
+import { EventReducer } from './event/event.reducer';
 
 const initialState: AppContextIntialStateType = {
     chats: {
@@ -19,6 +21,19 @@ const initialState: AppContextIntialStateType = {
         messages: []
     },
     socket: undefined,
+    auth: {
+        accessToken: "",
+        isAuthenticated: false,
+        role: null,
+        username: ""
+    },
+    event: {
+        link: "",
+        player: "",
+        settings: [],
+        title: "",
+        participants: []
+    },
     notification: {
         isShow: false,
         message: null
@@ -33,26 +48,33 @@ const AppContext = createContext<{
     dispatch: () => null
 });
 
-const combineReducer = ({ chats, socket, notification }: AppContextIntialStateType, action: any) => ({
+const combineReducer = ({ chats, socket, notification, auth, event }: AppContextIntialStateType, action: any) => ({
     chats: ChatReducer(chats, action),
     socket: SocketReducer(socket, action),
-    notification: NotificationReducer(notification, action)
+    notification: NotificationReducer(notification, action),
+    auth: AuthReducer(auth, action),
+    event: EventReducer(event, action)
 });
 
 interface AppContextProviderProps extends PropsWithChildren { }
 const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ children }): JSX.Element => {
     const [state, dispatch] = useReducer(combineReducer, initialState);
+
     const socket = useSocket(Config.connectionStrings.socketURL, {
         transports: ["websocket"],
         reconnectionAttempts: 5,
         reconnectionDelay: 5000,
-        autoConnect: false
+        autoConnect: false,
+        withCredentials: true,
+        query: {
+            token: state.auth.accessToken
+        },
     });
 
     const handleSocketConnect = () => {
         //todo: get data from api first and then connect to socket
         //1.connect socket 
-        socket.connect();
+        //socket.connect();
         //2.listen to general events on sockets 
         socket.on<SocketListenerEvents>(SocketListenerEvents.SOCKET_CONNECTED, () => {
             //update context to make socket accessible from everywhere
@@ -80,10 +102,8 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
 
         //2.2.user joined room event emit to socket to keep track user in our system
         socket.emit<SocketEventEmitter>(SocketEventEmitter.USER_JOIN_ROOM, new JoinRoomEmitter({
-            fullName: "پوریا باباعلی",
-            room: "inpointconnect",
-            type: Roles.TEACHER,
-            uuid: "7b10d112-2a38-411f-94dc-1b5fa64aa534"
+            room: state.event.title,
+            token: state.auth.accessToken
         }))
     }
 
@@ -149,6 +169,15 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
         });
     }
 
+    const handleGetParticipants = () => {
+        socket.on<SocketListenerEvents>(SocketListenerEvents.GET_ALL_PARTICPANTS_LIST, function ({ users }: { users: IEventParticipantResponse[] }) {
+            dispatch({
+                type: EventContextActionType.PARTICPANT_LIST_RECIEVIED,
+                payload: users
+            })
+        })
+    }
+
     const handleSocketDispose = () => {
         socket.off();
         socket.disconnect();
@@ -160,6 +189,8 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
         handleDefaultSocketIoEvents();
         //3.handle chats events
         handleChatEvents();
+        //4.handle participants
+        handleGetParticipants();
         return () => handleSocketDispose();
     }, [])
 

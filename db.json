@@ -1,0 +1,46 @@
+{
+    "auth": [
+        {
+            "identifier": "a981655f-c52d-4860-ab41-a2821b75c994",
+            "title": "تست رویداد برنامه نویسی",
+            "player_url": "https://player.arvancloud.com/index.html?config=&skin=shaka",
+            "event_name": "programming",
+            "role": "TEACHER",
+            "username": "test_pouriya",
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNjgxYTM4LTYyNDQtNDRjMi04NmFjLTk2ZTEyZTY1MzBhYiIsImZ1bGxfbmFtZSI6ImFsaSBtb2hhbW1kaSIsImlhdCI6MTY2ODA4ODk1NCwiZXhwIjoxNjczMjcyOTU0fQ.tQa9OPZxKNMQP1QpBkfKFWCxfBZbelgJQp3ishYVozQ",
+            "settings": [
+                {
+                    "id": 1,
+                    "title": "PRIVATE_CHAT",
+                    "value": false
+                },
+                {
+                    "id": 2,
+                    "title": "CHAT_ACCESS",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "identifier": "d305a09d-550d-4528-9edd-b4b5997d8deb",
+            "accessToken": "",
+            "username": "",
+            "title": "تست رویداد برنامه نویسی",
+            "event_name": "programming",
+            "player_url": "https://player.arvancloud.com/index.html?config=&skin=shaka",
+            "role": "STUDENT",
+            "settings": [
+                {
+                    "id": 1,
+                    "title": "PRIVATE_CHAT",
+                    "value": false
+                },
+                {
+                    "id": 2,
+                    "title": "CHAT_ACCESS",
+                    "value": true
+                }
+            ]
+        }
+    ]
+}

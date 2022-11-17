@@ -1,10 +1,14 @@
 import { Roles } from "types";
 
 export interface IJoinRoomEmitter {
-    fullName: string,
+    token: string,
     room: string,
-    uuid: string,
-    type: Roles
+}
+
+
+export interface IDeleteMessageEmitter {
+    messageId: number,
+    room: string
 }
 
 export interface ISendMessageEmitter {

@@ -36,7 +36,7 @@ export const MessageBox = memo(({ }: MessageBoxType) => {
                 name="text"
                 control={control}
                 rules={{ required: true }}
-                render={({ field }) => <TextArea textHeight={textHeight} setTextHeight={setTextHeight} placeholder="کامنت شما ..." rows={textHeight} {...field} />}
+                render={({ field }) => <TextArea placeholder="کامنت شما ..." rows={textHeight} {...field} />}
             />
             <Button type="submit" disabled={!isValid && !isDirty} variant="icon" className="mr-2 bg-secondary w-[40px] h-[40px] flex justify-center items-center hover:bg-opacity-70 cursor-pointer transition-colors !rounded-lg" icon={<RiSendPlaneFill size={25} className="-rotate-90 text-primary-200" />} />
         </form >

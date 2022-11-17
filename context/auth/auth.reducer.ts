@@ -1,10 +1,13 @@
-// export const AuthReducer = (state, action) => {
-//     switch (action.type) {
-//         case value:
+import { Roles } from "types";
+import { AuthContextActionType, IAuthContextAction, IAuthContextState } from "types/context";
 
-//             break;
-
-//         default:
-//             break;
-//     }
-// }
+export const AuthReducer = (state: IAuthContextState, action: IAuthContextAction): IAuthContextState => {
+    switch (action.type) {
+        case AuthContextActionType.AUTH_COMPLETED:
+            return { ...state, accessToken: action.payload.accessToken, isAuthenticated: true, role: action.payload.role, username: action.payload.username }
+        case AuthContextActionType.NEED_COMPLETE_INFORMATION:
+            return { ...state, isAuthenticated: false, role: Roles.CLIENT }
+        default:
+            return state;
+    }
+}

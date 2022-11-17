@@ -9,6 +9,8 @@ export interface InpointConfig {
 export interface InpointNotifications {
     user_disconnected_message: InpointNotificationPayload,
     user_retry_connection_failed_message: InpointNotificationPayload
+    user_in_land_page: InpointNotificationPayload
+    user_need_complete_info: string
     user_connect_to_socket: string
 }
 export type InpointNotificationPayload = {
@@ -22,6 +24,7 @@ export interface InpointConnections {
 
 export interface InpointChatPayload {
     chat_disable_text: string
+    remove_message_text: string
 }
 export interface InpointComponentConfig {
     navigations: NavigationConfigType[]

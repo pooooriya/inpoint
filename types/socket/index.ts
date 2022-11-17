@@ -1,3 +1,5 @@
+import { Roles } from "types/auth"
+
 export enum SocketListenerEvents {
     /**
      * زمانی که سوکت متصل میشود این ایونت صدا زده میشود
@@ -13,6 +15,7 @@ export enum SocketListenerEvents {
      */
     GET_ALL_MESSAGES = "pmessage",
 
+    GET_ALL_PARTICPANTS_LIST = "roomUsers"
 }
 
 
@@ -24,8 +27,12 @@ export enum SocketEventEmitter {
     /**
       * ارسال پیام به سمت سیستم از طریق چت
       */
-    SEND_NEW_MESSAGE = "chatMessage"
-
+    SEND_NEW_MESSAGE = "chatMessage",
+    /**
+     *حذف پیام توسط میزبان
+     */
+    DELETE_MESSAGE_BY_HOST = "deleteMessage",
+    TOGGLE_DISABLE_CHAT = "disableChat"
 }
 
 export enum NotificationTypes {
@@ -40,4 +47,13 @@ export interface ISocketChatResponse {
     time: string,
     messageId: number,
     room: string
+}
+
+
+export interface IEventParticipantResponse {
+    fullName: string,
+    id: string,
+    room: string,
+    type: Roles,
+    uuid: string
 }

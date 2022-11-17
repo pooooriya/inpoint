@@ -7,7 +7,8 @@ import { InpointConfig } from 'types'
 const Config: InpointConfig = {
     components: {
         chat: {
-            chat_disable_text: "امکان ارسال چت توسط میزبان غیر فعال شد"
+            chat_disable_text: "امکان ارسال چت توسط میزبان غیر فعال شد",
+            remove_message_text: "پیام با موفقیت حذف شد"
         },
         navigations: [
             { id: 1, name: "گفتگو ها", icon: BsFillChatQuoteFill, type: "navigation", slug: "chats" },
@@ -29,7 +30,7 @@ const Config: InpointConfig = {
         ]
     },
     connectionStrings: {
-        socketURL: process.env["SOCKET_URL"] ?? "http://188.121.121.8:3002"
+        socketURL: process.env["SOCKET_URL"] ?? "http://worker-1.moloodian.ir:3000/"
     },
     notifications: {
         user_disconnected_message: {
@@ -42,7 +43,12 @@ const Config: InpointConfig = {
             description: "برای اتصال مجدد گزینه پایین را کلیک کنید",
             buttonText: "اتصال مجدد"
         },
-        user_connect_to_socket: "سیستم شما با موفقیت متصل شد"
+        user_connect_to_socket: "سیستم شما با موفقیت متصل شد",
+        user_in_land_page: {
+            message: "در حال انتقال به رویداد پخش زنده",
+            description: "بعد از چند ثانیه به صفحه رویداد منتقل میشوید",
+        },
+        user_need_complete_info: "برای ورود به رویداد لطفا نام خود را وارد نمایید"
     },
 }
 

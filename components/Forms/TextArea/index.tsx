@@ -1,11 +1,9 @@
-import { ChangeEvent, Dispatch, SetStateAction, TextareaHTMLAttributes, useRef, useState } from "react"
+import TextareaAutosize from 'react-textarea-autosize';
 
-interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextAreaProps {
     placeholder?: string
     rows?: number
     type?: "transparent" | "primary"
-    textHeight: number,
-    setTextHeight: Dispatch<SetStateAction<number>>
 }
 
 const style = {
@@ -13,28 +11,9 @@ const style = {
     primary: "p-3 py-1 w-full outline-none bg-primary-600 font-bold placeholder:text-primary-1000 bg-opacity-80 rounded-lg text-sm bg-transparent"
 }
 
-export const TextArea = ({ placeholder, textHeight, setTextHeight, type = "transparent", ...rest }: TextAreaProps): JSX.Element => {
-    const IntialScroll = useRef<number>()
-
-    function handleChange(event: any): void {
-        if (type != "primary") {
-
-            const height = event.target.scrollHeight;
-
-            if (!event.target.value) {
-                setTextHeight(1);
-            }
-            if (!IntialScroll.current) {
-                IntialScroll.current = height;
-            }
-
-            if (height != IntialScroll.current && event.target.value) {
-                setTextHeight(2);
-            }
-        }
-    }
+export const TextArea = ({ placeholder, type = "transparent", ...rest }: TextAreaProps): JSX.Element => {
     return (
-        <textarea rows={textHeight} onChangeCapture={handleChange} className={style[type]} placeholder={placeholder} {...rest} />
+        <TextareaAutosize maxRows={4} className={style[type]} placeholder={placeholder} {...rest} />
     )
 }
 

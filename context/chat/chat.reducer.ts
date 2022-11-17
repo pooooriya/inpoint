@@ -5,6 +5,11 @@ export const ChatReducer = (state: IChatContextState, action: IChatContextAction
     switch (action.type) {
         case ChatContextActionType.GET_ALL_MESSAGES_CHAT:
             return { ...state, messages: [...state.messages, ...action?.payload] }
+        case ChatContextActionType.MESSAGE_HAS_BEEN_REMOVED: {
+            const perviousState = [...state.messages];
+            const newMessages = perviousState.filter(n => n.messageId != action.payload);
+            return { ...state, messages: newMessages }
+        }
         case ChatContextActionType.NEW_MESSAGE_RECEIVED:
             return { ...state, messages: [...state.messages, action?.payload] }
         case ChatContextActionType.PRIVATE_MODE_CHAT_DEACTIVATED:
