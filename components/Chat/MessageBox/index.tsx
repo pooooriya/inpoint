@@ -14,7 +14,7 @@ type MessageBoxType = {
 }
 export const MessageBox = memo(({ }: MessageBoxType) => {
     const [textHeight, setTextHeight] = useState(1);
-    const { socket } = useContext(AppContext).state
+    const { socket, event } = useContext(AppContext).state
     const { control, handleSubmit, formState: { errors, isDirty, isValid }, getValues, reset } = useForm<FormInput>({
         defaultValues: {
             text: ""
@@ -22,9 +22,8 @@ export const MessageBox = memo(({ }: MessageBoxType) => {
     });
     const onSubmit: SubmitHandler<FormInput> = (data) => {
         socket?.emit<SocketEventEmitter>(SocketEventEmitter.SEND_NEW_MESSAGE, new SendMessageEmitter({
-            room: "inpointconnect",
+            room: event.title,
             text: data.text,
-            type: Roles.TEACHER
         }))
         reset();
         setTextHeight(1);
@@ -36,7 +35,7 @@ export const MessageBox = memo(({ }: MessageBoxType) => {
                 name="text"
                 control={control}
                 rules={{ required: true }}
-                render={({ field }) => <TextArea placeholder="کامنت شما ..." rows={textHeight} {...field} />}
+                render={({ field }) => <TextArea placeholder="کامنت شما ..." minrows={1} maxrow={4} {...field} />}
             />
             <Button type="submit" disabled={!isValid && !isDirty} variant="icon" className="mr-2 bg-secondary w-[40px] h-[40px] flex justify-center items-center hover:bg-opacity-70 cursor-pointer transition-colors !rounded-lg" icon={<RiSendPlaneFill size={25} className="-rotate-90 text-primary-200" />} />
         </form >

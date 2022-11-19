@@ -7,18 +7,31 @@ import Config from 'inpoint.config';
 import { SocketEventEmitter } from 'types';
 import { JoinRoomEmitter } from 'dtos';
 import { NotificationReducer } from './notification/notification.reducer';
-import { ChatContextActionType, EventContextActionType, NotificationType } from 'types/context';
+import { ChatContextActionType, EventContextActionType, NotificationType, VoteContextActionType } from 'types/context';
 import { Button, LoadingButton } from 'components/Forms/Button';
 import { IEventParticipantResponse, ISocketChatResponse, NotificationTypes } from 'types/socket';
 import { toast } from 'react-toastify';
 import { AuthReducer } from './auth/auth.reducer';
 import { EventReducer } from './event/event.reducer';
+import { destroyCookie } from 'nookies';
+import { VoteReducer } from './vote/vote.reducer';
 
 const initialState: AppContextIntialStateType = {
     chats: {
         isActive: true,
         isPrivate: false,
         messages: []
+    },
+    vote: {
+        answers: [],
+        hasNewVote: false,
+        questions: [],
+        showAnswer: false,
+        title: "",
+        trueAnswer: 0,
+        needResetVote: true,
+        userAnswer: 0,
+        userIsAnswered: false,
     },
     socket: undefined,
     auth: {
@@ -48,18 +61,19 @@ const AppContext = createContext<{
     dispatch: () => null
 });
 
-const combineReducer = ({ chats, socket, notification, auth, event }: AppContextIntialStateType, action: any) => ({
+const combineReducer = ({ chats, socket, notification, auth, event, vote }: AppContextIntialStateType, action: any) => ({
     chats: ChatReducer(chats, action),
     socket: SocketReducer(socket, action),
     notification: NotificationReducer(notification, action),
     auth: AuthReducer(auth, action),
-    event: EventReducer(event, action)
+    event: EventReducer(event, action),
+    vote: VoteReducer(vote, action)
 });
 
 interface AppContextProviderProps extends PropsWithChildren { }
 const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ children }): JSX.Element => {
     const [state, dispatch] = useReducer(combineReducer, initialState);
-
+    console.log(state.auth.accessToken, "***********************************");
     const socket = useSocket(Config.connectionStrings.socketURL, {
         transports: ["websocket"],
         reconnectionAttempts: 5,
@@ -73,8 +87,7 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
 
     const handleSocketConnect = () => {
         //todo: get data from api first and then connect to socket
-        //1.connect socket 
-        //socket.connect();
+        socket.connect();
         //2.listen to general events on sockets 
         socket.on<SocketListenerEvents>(SocketListenerEvents.SOCKET_CONNECTED, () => {
             //update context to make socket accessible from everywhere
@@ -85,6 +98,7 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
                 hideProgressBar: true,
                 position: "top-center",
                 closeButton: false,
+                autoClose: 1000
             })
         })
 
@@ -137,10 +151,12 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
                 data?.type === NotificationTypes.NOTIFICATION &&
                 data.text === "چت غیر فعال شد"
             ) {
+                toast.success(data?.text)
                 dispatch({
                     type: ChatContextActionType.CHAT_ROOM_GENERALLY_DISABLED,
                 })
             } else if (data?.type === NotificationTypes.NOTIFICATION && data.text === "چت فعال شد") {
+                toast.success(data?.text)
                 dispatch({
                     type: ChatContextActionType.CHAT_ROOM_GENERALLY_ACTIVATED,
                 })
@@ -148,6 +164,7 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
                 data?.type === NotificationTypes.NOTIFICATION &&
                 data?.text === "پیام خصوصی فعال شد"
             ) {
+                toast.success(data?.text)
                 dispatch({
                     type: ChatContextActionType.PRIVATE_MODE_CHAT_ACTIVATED,
                 })
@@ -155,6 +172,7 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
                 data?.type === NotificationTypes.NOTIFICATION &&
                 data?.text === "پیام خصوصی غیر فعال شد"
             ) {
+                toast.success(data?.text)
                 dispatch({
                     type: ChatContextActionType.PRIVATE_MODE_CHAT_ACTIVATED,
                 })
@@ -178,21 +196,51 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
         })
     }
 
+    const handleVoteEvent = () => {
+        socket.on<SocketListenerEvents>(SocketListenerEvents.NEW_VOTE_CREATED, function () {
+            dispatch({
+                type: VoteContextActionType.USER_RESET_ANSWERS,
+            })
+        })
+        if (state.auth.role === Roles.HOST) {
+            socket.on<SocketListenerEvents>(SocketListenerEvents.GET_NEW_VOTE_FROM_HOST_SIDE, function (data: any) {
+                dispatch({
+                    type: VoteContextActionType.NEW_VOTE_RECIEVED,
+                    payload: data
+                })
+            })
+        } else {
+            socket.on<SocketListenerEvents>(SocketListenerEvents.GET_NEW_VOTE_FROM_CLIENT_SIDE, function (data: any) {
+                dispatch({
+                    type: VoteContextActionType.NEW_VOTE_RECIEVED,
+                    payload: data
+                })
+            })
+        }
+
+    }
+
     const handleSocketDispose = () => {
         socket.off();
         socket.disconnect();
     }
     useEffect(() => {
-        //1.connect to socket 
-        handleSocketConnect();
-        //2.handle default socket.io-client events
-        handleDefaultSocketIoEvents();
-        //3.handle chats events
-        handleChatEvents();
-        //4.handle participants
-        handleGetParticipants();
+        if (state.auth.isAuthenticated) {
+            //1.connect to socket 
+            handleSocketConnect();
+            //2.handle default socket.io-client events
+            handleDefaultSocketIoEvents();
+            //3.handle chats events
+            handleChatEvents();
+            //4.handle participants
+            handleGetParticipants();
+            //5.handle vote event 
+            handleVoteEvent();
+        } else {
+            handleSocketDispose();
+        }
         return () => handleSocketDispose();
-    }, [])
+    }, [state.auth.isAuthenticated])
 
     return (
         <AppContext.Provider value={{ state, dispatch }}>

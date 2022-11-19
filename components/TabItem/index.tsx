@@ -6,6 +6,8 @@ type TabItemProps = {
 }
 
 export const TabItem = ({ Selected, Title }: TabItemProps) => {
+    console.log(Selected);
+
     return (
         <div className={cs('flex flex-col select-none h-[27px] px-3', Selected ? " after:w-[90%] after:bg-secondary after:mx-auto  after:h-[5px]  after:rounded-[10px_10px_0px_0px] after:-mb-4 " : null)}>
             <button
@@ -13,9 +15,6 @@ export const TabItem = ({ Selected, Title }: TabItemProps) => {
             >
                 {Title}
             </button>
-            {!Selected && (
-                <div className="w-[90%] bg-secondary h-[5px] bg-transparent -mb-4" />
-            )}
         </div>
     )
 }

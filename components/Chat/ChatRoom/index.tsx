@@ -7,6 +7,7 @@ import { MessageBox } from '../MessageBox'
 import { useForm } from "react-hook-form";
 import { Transition } from '@headlessui/react'
 import { useVirtualizer } from '@tanstack/react-virtual';
+import Image from 'next/image'
 
 type ChatRoomProps = {
 
@@ -66,6 +67,43 @@ export const ChatRoom = ({ }: ChatRoomProps) => {
         [rowVirtualizer],
     )
 
+
+    if (chats?.messages?.length == 0) {
+        return (
+            <>
+                <div className='h-full flex justify-center items-center flex-col'>
+                    <Image src='/assets/images/emptyicon.png' width={50} height={50} />
+                    <h2 className='text-primary-300 mt-2 text-sm'>پیامی وجود ندارد اولین نفر باشید!</h2>
+                </div>
+                <div className='relative'>
+                    {chats.isActive ? (
+                        <div className='flex w-full'>
+                            <MessageBox />
+                        </div>
+                    ) : (
+                        <div className='flex w-full p-5 text-white text-center justify-center items-center bg-primary-900'>
+                            <h2>{Config.components.chat.chat_disable_text}</h2>
+                        </div>
+                    )}
+                    <Transition appear show={hasNewMessage} as={Fragment} >
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <div className='select-none -top-14 text-sm left-[50%] -translate-x-1/2 absolute bg-secondary text-white rounded-lg px-3 py-1 cursor-pointer' onClick={handleScrollToBottom}>
+                                پیام جدید دارید
+                            </div>
+                        </Transition.Child>
+                    </Transition>
+                </div>
+            </>
+        )
+    }
     return (
         <>
             <ul onScroll={handleScroll} ref={chatRef} className="flex-1 p-3 relative overflow-auto scrollbar-thin scrollbar-track-slate-700 scrollbar-thumb-slate-600">

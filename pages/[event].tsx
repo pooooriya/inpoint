@@ -4,25 +4,30 @@ import { API_URLS } from 'constants/api.constants'
 import { AppContext } from 'context'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { parseCookies } from 'nookies'
+import { destroyCookie, parseCookies } from 'nookies'
 import { useContext, useEffect } from 'react'
+import { Roles } from 'types'
+import { AuthContextActionType, EventContextActionType } from 'types/context'
 
 
 type HomeProps = {
-  data: any
+  auth: any
+  event: any
 }
-const Home: NextPage<HomeProps> = ({ data }) => {
-  const { socket, auth } = useContext(AppContext).state;
+const Home: NextPage<HomeProps> = ({ auth, event }) => {
+  const { socket } = useContext(AppContext).state;
   const dispatch = useContext(AppContext).dispatch;
   const router = useRouter();
 
-  // connect to socket here if token is provided 
   useEffect(() => {
-    if (auth.accessToken && auth.username) {
+    if (auth.isAuthenticated && auth.accessToken && auth.username) {
+      dispatch({ type: AuthContextActionType.AUTH_COMPLETED, payload: auth })
+      dispatch({ type: EventContextActionType.EVENT_INFORMATION_COMPLETED, payload: event })
       socket?.connect()
     } else {
-      // we have to redirect to get token again 
-      router.push('/arpa?event_name=' + data.name)
+      // destroyCookie(null, "token");
+      // destroyCookie(null, "username");
+      router.push('/arpa?event_name=' + event.title)
     }
     return () => {
       socket?.disconnect()
@@ -40,21 +45,60 @@ export default Home
 
 export const getServerSideProps = async (ctx: any) => {
   let response;
+  const { query } = ctx;
   try {
-    const x = parseCookies(ctx)
-    console.log(x);
-    // we just check event is available or not !
-    response = await AXIOS.post(`${API_URLS.ARPA_AUTH_URL}`, {
-      event_name: ctx.query.event
-    })
+    const creds = parseCookies(ctx)
+
+    if (creds.token && creds.username) {
+      // we just check event is available or not !
+      response = await AXIOS.post(`${API_URLS.ARPA_AUTH_URL}`, {
+        event_name: query.event
+      }, {
+        headers: {
+          "Authorization": `bearer ${creds.token}`
+        }
+      })
+
+      return {
+        props: {
+          auth: {
+            isAuthenticated: true,
+            username: creds.username || '',
+            role: response?.data?.data?.role,
+            accessToken: creds.token || '',
+          },
+          event: {
+            title: response?.data?.data.name || '',
+            player: response?.data?.data?.player_url || '',
+            settings: response?.data.data?.settings || [],
+            link: response?.data?.data?.client_url || '',
+            description: response?.data?.data?.event_description || 'رویداد بدون نام'
+          }
+        }
+      }
+    } else {
+      // check event exist or not and treated as guest not host 
+      response = await AXIOS.post(`${API_URLS.ARPA_AUTH_URL}`, {
+        event_name: ctx.query.event
+      }, {
+      })
+
+      return {
+        redirect: {
+          permanent: false,
+          destination: `/arpa?event_name=${response?.data?.data?.name}`
+        }
+      }
+
+    }
+
   } catch (error) {
     return {
-      notFound: true,
+      redirect: {
+        permanent: false,
+        destination: `/arpa?event_name=${query.event}`
+      }
     }
   }
-  return {
-    props: {
-      data: response.data?.data || null
-    }
-  }
+
 }

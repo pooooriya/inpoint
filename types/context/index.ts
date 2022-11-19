@@ -8,6 +8,7 @@ export type AppContextIntialStateType = {
     notification: INotificationContextState
     auth: IAuthContextState
     event: IEventContextState
+    vote: IVoteContextState
 }
 
 export interface IAuthContextState {
@@ -19,6 +20,7 @@ export interface IAuthContextState {
 
 export interface IEventContextState {
     title: string
+    description: string
     player: string
     settings: any[]
     link: string
@@ -29,6 +31,35 @@ export interface IChatContextState {
     messages: ISocketChatResponse[]
     isPrivate: boolean
     isActive: boolean
+}
+
+export type VoteQuestion = {
+    content: string,
+    id: number,
+    isAnswer: boolean,
+    point: number,
+    percent: string
+}
+
+export interface IVoteContextState {
+    userIsAnswered: boolean,
+    userAnswer: number,
+    hasNewVote: boolean,
+    showAnswer: boolean,
+    title: string
+    questions: VoteQuestion[]
+    answers: [],
+    trueAnswer: number
+    needResetVote: boolean
+}
+
+export enum VoteContextActionType {
+    NEW_VOTE_RECIEVED = 'NEW_VOTE_RECIEVED',
+    VOTE_CHECKED = 'VOTE_CHECKED',
+    USER_ANSWERED_VOTE = 'USER_ANSWERED_VOTE',
+    RESET_VOTE = 'RESET_VOTE',
+    UNDO_RESET_VOTE = 'UNDO_RESET_VOTE',
+    USER_RESET_ANSWERS = "USER_RESET_ANSWERS"
 }
 
 
@@ -120,9 +151,5 @@ export interface INotificationContextState {
 
 export interface INotificationContextAction extends IContextAction<NotificationType, any> { }
 
-
-export enum VoteContextActionType {
-    NEW_VOTE_RECIEVED = "NEW_VOTE_RECIEVED",
-}
 
 export interface IVoteContextAction extends IContextAction<VoteContextActionType, any> { }

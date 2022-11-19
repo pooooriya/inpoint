@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const AXIOS = axios.create({
-    baseURL: 'http://worker-1.moloodian.ir:3000',
+    baseURL: 'http://localhost:5000',
     headers: {
         timeout: 20000,
     },

@@ -15,11 +15,20 @@ export enum SocketListenerEvents {
      */
     GET_ALL_MESSAGES = "pmessage",
 
-    GET_ALL_PARTICPANTS_LIST = "roomUsers"
+    GET_ALL_PARTICPANTS_LIST = "roomUsers",
+    GET_NEW_VOTE_FROM_HOST_SIDE = "getVoteTeacher",
+    GET_NEW_VOTE_FROM_CLIENT_SIDE = "getVoteStudent",
+    NEW_VOTE_CREATED = 'newVoteCreated',
+
 }
 
 
+
+
+
 export enum SocketEventEmitter {
+    TOGGLE_PRIVATE_CHAT = 'privateChat',
+
     /** 
      * زمانی که کاربر وارد روم میشود این ایونت استفاده میشود
       */
@@ -32,7 +41,10 @@ export enum SocketEventEmitter {
      *حذف پیام توسط میزبان
      */
     DELETE_MESSAGE_BY_HOST = "deleteMessage",
-    TOGGLE_DISABLE_CHAT = "disableChat"
+    TOGGLE_DISABLE_CHAT = "disableChat",
+    CREATE_NEW_VOTE = 'createVote',
+    ANSWER_VOTE = 'answerVote'
+
 }
 
 export enum NotificationTypes {

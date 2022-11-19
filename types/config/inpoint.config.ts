@@ -1,3 +1,4 @@
+import { Roles } from 'types/auth';
 import { IconType } from "react-icons"
 
 export interface InpointConfig {
@@ -35,7 +36,8 @@ export interface InpointComponentConfig {
 export type NavigationConfigType = {
     id: number,
     name: string,
-    icon: IconType
+    icon: IconType,
+    role: Roles | null,
     type: "navigation" | "drawer" | "modal"
     slug: "chats" | "participants" | "exit" | "polls" | "settings" | "links"
 }

@@ -48,7 +48,7 @@ export const Button = ({ variant, title, icon, loading, className, outlined, dis
     switch (variant) {
         case "primary":
             return (
-                <button className={cs(btn, btn_primary, disabled && btn_disabled, outlined && btn_primary_outline, className)} {...props} >
+                <button className={cs(btn, btn_primary, outlined && btn_primary_outline, disabled && btn_disabled, className)} {...props} >
                     <div className="flex justify-centers items-center">
                         {loading ? <LoadingButton className='ml-2' /> : icon}
                         {title}

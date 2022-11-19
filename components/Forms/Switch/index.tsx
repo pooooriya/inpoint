@@ -8,34 +8,10 @@ type SwitchProps = {
     onClick?: () => void
     activeMessage?: string
     deactiveMessage?: string
+    setEnabled: any
+    enabled: boolean
 }
-export const SwitchComponent = ({ ...props }: SwitchProps) => {
-    const [enabled, setEnabled] = useState(false)
-    useEffect(() => {
-        if (props.onClick) {
-            props.onClick();
-        }
-        if (enabled) {
-            if (props.activeMessage) {
-                toast.success(props.activeMessage, {
-                    delay: 1000,
-                    hideProgressBar: true,
-                    position: "top-center",
-                    closeButton: false,
-                })
-            }
-        } else {
-            if (props.deactiveMessage) {
-                toast.success(props.activeMessage, {
-                    delay: 1000,
-                    hideProgressBar: true,
-                    position: "top-center",
-                    closeButton: false,
-                })
-            }
-        }
-    }, [enabled])
-
+export const SwitchComponent = ({ enabled, setEnabled, ...props }: SwitchProps) => {
     return (
         <Switch
             checked={enabled}
