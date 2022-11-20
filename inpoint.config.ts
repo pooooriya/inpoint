@@ -31,7 +31,7 @@ const Config: InpointConfig = {
         ]
     },
     connectionStrings: {
-        socketURL: process.env["SOCKET_URL"] ?? "http://localhost:5000/"
+        socketURL: process.env["SOCKET_URL"] ?? "http://37.152.191.113:5000/"
     },
     notifications: {
         user_disconnected_message: {
