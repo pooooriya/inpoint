@@ -48,6 +48,10 @@ export const Navigation = () => {
                         </div>
                     )}
                 </h1>)
+            case "exit":
+                return (
+                    <h1>ss</h1>
+                )
             default:
                 return null
         }

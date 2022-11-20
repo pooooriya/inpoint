@@ -15,6 +15,7 @@ import { AuthReducer } from './auth/auth.reducer';
 import { EventReducer } from './event/event.reducer';
 import { destroyCookie } from 'nookies';
 import { VoteReducer } from './vote/vote.reducer';
+import { useRouter } from 'next/router';
 
 const initialState: AppContextIntialStateType = {
     chats: {
@@ -45,7 +46,8 @@ const initialState: AppContextIntialStateType = {
         player: "",
         settings: [],
         title: "",
-        participants: []
+        participants: [],
+        description: ""
     },
     notification: {
         isShow: false,
@@ -72,6 +74,7 @@ const combineReducer = ({ chats, socket, notification, auth, event, vote }: AppC
 
 interface AppContextProviderProps extends PropsWithChildren { }
 const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ children }): JSX.Element => {
+    const router = useRouter();
     const [state, dispatch] = useReducer(combineReducer, initialState);
     console.log(state.auth.accessToken, "***********************************");
     const socket = useSocket(Config.connectionStrings.socketURL, {
@@ -179,6 +182,14 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
             }
         });
 
+
+
+        socket.on<SocketListenerEvents>(SocketListenerEvents.DELETE_MESSAGE_BY_ID, function (data: any) {
+            dispatch({
+                type: ChatContextActionType.MESSAGE_HAS_BEEN_REMOVED,
+                payload: data
+            })
+        });
         socket.on<SocketListenerEvents>(SocketListenerEvents.GET_ALL_MESSAGES, function (data: ISocketChatResponse[]) {
             dispatch({
                 type: ChatContextActionType.GET_ALL_MESSAGES_CHAT,
@@ -194,9 +205,25 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
                 payload: users
             })
         })
+
+        socket.on<SocketListenerEvents>(SocketListenerEvents.USER_HAD_BEEN_KICKED, function () {
+            console.log("sssssssssssssss");
+
+            // destroyCookie(null, "token");
+            // destroyCookie(null, "username");
+            // router.push('/404')
+            // handleSocketDispose();
+        })
     }
 
     const handleVoteEvent = () => {
+        socket.on<SocketListenerEvents>(SocketListenerEvents.EVENT_FINISHED, function () {
+            destroyCookie(null, "token");
+            destroyCookie(null, "username");
+            handleSocketDispose();
+            router.push('/inpoint/finish')
+        })
+
         socket.on<SocketListenerEvents>(SocketListenerEvents.NEW_VOTE_CREATED, function () {
             dispatch({
                 type: VoteContextActionType.USER_RESET_ANSWERS,

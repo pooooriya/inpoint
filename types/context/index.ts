@@ -105,7 +105,8 @@ export interface IChatContextAction extends IContextAction<ChatContextActionType
 
 export enum EventContextActionType {
     EVENT_INFORMATION_COMPLETED = "EVENT_INFORMATION_COMPLETED",
-    PARTICPANT_LIST_RECIEVIED = "PARTICPANT_LIST_RECIEVIED"
+    PARTICPANT_LIST_RECIEVIED = "PARTICPANT_LIST_RECIEVIED",
+    USER_REMOVED_FROM_SESSION = "USER_REMOVED_FROM_SESSION"
 }
 export interface IEventContextAction extends IContextAction<EventContextActionType, any> { }
 

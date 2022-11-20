@@ -8,7 +8,7 @@ import { Modal } from "components/Modal"
 import { AppContext } from "context"
 import { toast } from "react-toastify"
 import { Poll } from "components/Poll"
-import { Roles } from "types"
+import { Roles, SocketEventEmitter } from "types"
 import { VoteContextActionType } from "types/context"
 
 type HeaderProps = {
@@ -16,7 +16,7 @@ type HeaderProps = {
 }
 
 export const Header = (props: HeaderProps) => {
-    const { vote, auth, event } = useContext(AppContext).state;
+    const { vote, auth, event, socket } = useContext(AppContext).state;
     console.log(!vote.title);
 
     const [isOpen, setisOpen] = useState(false)
@@ -85,11 +85,17 @@ export const Header = (props: HeaderProps) => {
                         <div className="bg-primary-900 w-[80px] h-[80px] flex justify-center items-center rounded-full">
                             <AiOutlineWarning className="text-danger" size={50} />
                         </div>
-                        <h2 className="mt-5">آیا رویداد 1 تمام شود؟</h2>
+                        <h2 className="mt-5">آیا رویداد تمام شود؟</h2>
                         <h3 className="text-sm mt-2">رویداد برای همه شرکت کنندگان قطع می شود.</h3>
                         <div className="flex [&_button]:mt-4 [&_button]:mx-3">
-                            <Button variant="primary" title="انصراف" outlined />
-                            <Button variant="danger" title="اتمام رویداد" />
+                            <Button variant="primary" title="انصراف" outlined onClick={() => setIsOpenEndShow(false)} />
+                            <Button variant="danger" title="اتمام رویداد" onClick={() => {
+                                setIsOpenEndShow(false)
+                                socket?.emit(SocketEventEmitter.EVENT_FINISHED, {
+                                    room: event.title,
+                                    status: true
+                                })
+                            }} />
                         </div>
                     </div>
                 </Modal>

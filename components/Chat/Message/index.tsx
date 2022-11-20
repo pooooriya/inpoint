@@ -4,7 +4,7 @@ import { digitsEnToFa, digitsFaToEn, timeAgo } from "@persian-tools/persian-tool
 import { FiMoreVertical } from 'react-icons/fi'
 import { memo, useContext } from 'react';
 import { AppContext } from 'context';
-import { ChatContextActionType, SocketEventEmitter } from 'types';
+import { ChatContextActionType, Roles, SocketEventEmitter } from 'types';
 import { DeleteMessageEmitter } from 'dtos/socket/emitters/deletemessage.emitter.dto';
 import { toast } from 'react-toastify';
 import Config from 'inpoint.config';
@@ -17,14 +17,14 @@ type MessageProps = {
 }
 
 const Message = memo(({ text, time, fullname, id }: MessageProps) => {
-    const { socket } = useContext(AppContext).state;
+    const { socket, auth, event } = useContext(AppContext).state;
     const dispatch = useContext(AppContext).dispatch;
 
 
     const handleRemoveMessage = (id: number) => {
         socket?.emit<SocketEventEmitter>(SocketEventEmitter.DELETE_MESSAGE_BY_HOST, new DeleteMessageEmitter({
             messageId: id,
-            room: "inpointConnect"
+            room: event.title
         }))
         toast.success(Config.components.chat.remove_message_text, {
             delay: 1000,
@@ -58,9 +58,11 @@ const Message = memo(({ text, time, fullname, id }: MessageProps) => {
                 <h6 className='text-xs'>{fullname}</h6>
                 <div className='flex items-center justify-center'>
                     <h6 className=' ml-1 text-xs'>{digitsEnToFa(timeAgo(getTimeNow(time)))}</h6>
-                    <DropDown Icon={<FiMoreVertical />} Type="icon" >
-                        <Button title="حذف پیام" variant="primary" onClick={() => handleRemoveMessage(id)} />
-                    </DropDown>
+                    {auth.role === Roles.HOST && (
+                        <DropDown Icon={<FiMoreVertical />} Type="icon" >
+                            <Button title="حذف پیام" variant="primary" onClick={() => handleRemoveMessage(id)} />
+                        </DropDown>
+                    )}
                 </div>
             </div>
             <p dir='auto' className='text-primary-400 mt-2 text-sm break-all'>{text}</p>

@@ -1,4 +1,4 @@
-import { AppContextIntialStateType, IChatContextAction, IChatContextState } from "types";
+import { IChatContextAction, IChatContextState } from "types";
 import { ChatContextActionType } from "types";
 
 export const ChatReducer = (state: IChatContextState, action: IChatContextAction): IChatContextState => {

@@ -136,12 +136,13 @@ export const Poll = ({ }: PollType) => {
             type: VoteContextActionType.UNDO_RESET_VOTE
         })
     }
+    console.log(vote);
 
 
     return (
         <>
             {
-                auth.role === Roles.CLIENT && vote.needResetVote ? (
+                auth.role === Roles.HOST && vote.needResetVote ? (
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-between">
                         <div className="z-10 flex-1 bg-primary-1100 h-inherit flex flex-col overflow-auto pb-32">
                             <div className="flex justify-between items-center mt-5 text-primary-300">
@@ -260,7 +261,7 @@ export const Poll = ({ }: PollType) => {
                             </div>
                         ))}
 
-                        {auth.role === Roles.CLIENT && (
+                        {auth.role === Roles.HOST && (
                             <Button type="submit" variant="secondary" title="ساخت مجدد نظرسنجی" className=" text-lg mt-10 flex justify-center w-full" onClick={handleCreateVoteAgain} />
                         )}
                     </div>

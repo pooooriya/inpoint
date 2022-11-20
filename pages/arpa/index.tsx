@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { Input } from 'components/Forms/Input'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { destroyCookie, parseCookies, setCookie } from 'nookies'
+import { toast } from 'react-toastify'
 
 
 interface ArvanCloudAuthenticationProps extends PropsWithChildren {
@@ -65,6 +66,8 @@ const ArvanCloudAuthentication = ({ auth, event }: ArvanCloudAuthenticationProps
             phone_number: "",
             event_name: event?.title,
         }).then(response => {
+            console.log(response);
+
             dispatch({
                 type: AuthContextActionType.AUTH_COMPLETED, payload: {
                     role: Roles.CLIENT,
@@ -82,9 +85,10 @@ const ArvanCloudAuthentication = ({ auth, event }: ArvanCloudAuthenticationProps
                 router.push("/404")
             }
         }).catch(err => {
-            sessionStorage.removeItem("accessToken")
-            sessionStorage.removeItem("username")
-            router.push("/404")
+            toast.error("خطایی رخ داده است لطفا مجددا امتحان کنید")
+            // sessionStorage.removeItem("accessToken")
+            // sessionStorage.removeItem("username")
+            // router.push("/404")
         })
     }
 

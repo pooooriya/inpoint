@@ -19,15 +19,17 @@ export enum SocketListenerEvents {
     GET_NEW_VOTE_FROM_HOST_SIDE = "getVoteTeacher",
     GET_NEW_VOTE_FROM_CLIENT_SIDE = "getVoteStudent",
     NEW_VOTE_CREATED = 'newVoteCreated',
-
+    DELETE_MESSAGE_BY_ID = 'messageDeleteById',
+    USER_HAD_BEEN_KICKED = 'isKicked',
+    EVENT_FINISHED = 'finishRoom'
 }
-
 
 
 
 
 export enum SocketEventEmitter {
     TOGGLE_PRIVATE_CHAT = 'privateChat',
+    EVENT_FINISHED = 'startStop',
 
     /** 
      * زمانی که کاربر وارد روم میشود این ایونت استفاده میشود
@@ -43,7 +45,8 @@ export enum SocketEventEmitter {
     DELETE_MESSAGE_BY_HOST = "deleteMessage",
     TOGGLE_DISABLE_CHAT = "disableChat",
     CREATE_NEW_VOTE = 'createVote',
-    ANSWER_VOTE = 'answerVote'
+    ANSWER_VOTE = 'answerVote',
+    KICK_USER = 'kickUser'
 
 }
 

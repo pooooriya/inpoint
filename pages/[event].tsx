@@ -94,10 +94,7 @@ export const getServerSideProps = async (ctx: any) => {
 
   } catch (error) {
     return {
-      redirect: {
-        permanent: false,
-        destination: `/arpa?event_name=${query.event}`
-      }
+      notFound: true,
     }
   }
 
