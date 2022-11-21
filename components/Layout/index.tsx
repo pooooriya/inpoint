@@ -11,25 +11,7 @@ type LayoutProps = {
 }
 
 export const Layout = (props: LayoutProps) => {
-    const [isFullScreenMode, setIsFullScreenMode] = useState<boolean>(false);
     const { notification } = useContext(AppContext).state;
-    const handleOrienationChange = (e: MediaQueryListEvent) => {
-        if (!e.matches) {
-            if (window.innerWidth <= 900 && window.innerHeight <= 600) {
-                setIsFullScreenMode(true);
-            } else {
-                setIsFullScreenMode(false);
-            }
-        } else {
-            setIsFullScreenMode(false);
-        }
-    }
-    useEffect(() => {
-        let portrait = window.matchMedia("(orientation: portrait)");
-        portrait.addEventListener("change", handleOrienationChange);
-        return () => portrait.removeEventListener("change", handleOrienationChange)
-    }, [])
-
     return (
         <>
             <div className="flex h-screen">
@@ -46,7 +28,7 @@ export const Layout = (props: LayoutProps) => {
                                 <iframe
                                     className="w-full aspect-video h-full lg:h-[unset_!important]" src="https://player.arvancloud.com/index.html?config=https://inpoint.arvanlive.com/inpoint/origin_config.json&skin=shaka" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen={true} />
                             </div>
-                            <div className={classNames("bg-primary-1100 lg:hidden w-full !flex-auto flex-shrink-0 flex-grow-0 relative", isFullScreenMode && "hidden")}>
+                            <div className={classNames("bg-primary-1100 lg:hidden w-full !flex-auto flex-shrink-0 flex-grow-0 relative")}>
                                 <Navigation />
                             </div>
                         </div>

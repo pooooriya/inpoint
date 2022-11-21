@@ -82,10 +82,7 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
         reconnectionAttempts: 5,
         reconnectionDelay: 5000,
         autoConnect: false,
-        withCredentials: true,
-        query: {
-            token: state.auth.accessToken
-        },
+        withCredentials: false,
     });
 
     const handleSocketConnect = () => {
@@ -116,11 +113,10 @@ const AppContextProvider: React.FunctionComponent<AppContextProviderProps> = ({ 
                 </>
             })
         });
-
         //2.2.user joined room event emit to socket to keep track user in our system
         socket.emit<SocketEventEmitter>(SocketEventEmitter.USER_JOIN_ROOM, new JoinRoomEmitter({
-            room: state.event.title,
-            token: state.auth.accessToken
+            room: router?.query?.event_name ?? state.event.title,
+            token: state?.auth?.accessToken
         }))
     }
 

@@ -46,8 +46,8 @@ const ArvanCloudAuthentication = ({ auth, event }: ArvanCloudAuthenticationProps
                 dispatch({ type: AuthContextActionType.AUTH_COMPLETED, payload: auth })
                 dispatch({ type: EventContextActionType.EVENT_INFORMATION_COMPLETED, payload: event })
                 setNeedCreds(false);
-                setCookie(null, 'token', auth.accessToken)
-                setCookie(null, 'username', auth.username)
+                setCookie(null, 'token', auth.accessToken, { expires: 0 })
+                setCookie(null, 'username', auth.username, { expires: 0 })
                 //go to main page cause its host
                 //todo: check availability of event to push to another page 
                 //todo: emmit user join room here
@@ -76,8 +76,8 @@ const ArvanCloudAuthentication = ({ auth, event }: ArvanCloudAuthenticationProps
                 }
             })
             if (response?.data?.data?.token) {
-                setCookie(null, 'token', response?.data?.data?.token)
-                setCookie(null, 'username', data?.username)
+                setCookie(null, 'token', response?.data?.data?.token, { expires: 0 })
+                setCookie(null, 'username', data?.username, { expires: 0 })
                 router.push(`/${event?.title}`)
             } else {
                 destroyCookie(null, 'token')
