@@ -218,7 +218,7 @@ export const Poll = ({ }: PollType) => {
                 ) : (
                     <div className="flex flex-col relative">
                         <h2 className="text-primary-400 break-words">{vote.title}</h2>
-                        {vote?.questions?.map(question => (
+                        {vote?.questions?.map((question, index) => (
                             <div className="break-words line mb-3">
 
                                 {((auth.role == Roles.CLIENT && vote.userIsAnswered && !vote.trueAnswer) || auth.role == Roles.HOST) ? (
@@ -239,15 +239,16 @@ export const Poll = ({ }: PollType) => {
                                         </div>
                                     </>
                                 ) : (
-                                    <div className={classNames("bg-primary-900 p-2 rounded-lg flex items-center cursor-pointer mt-2", vote.userIsAnswered ? question.isAnswer ? 'border-2 border-secondary' : 'border-2 border-danger' : '')} onClick={() => handleAnswerVote(question.id)}>
+                                    <div className={classNames("bg-primary-900 p-2 rounded-lg flex items-center cursor-pointer mt-2", vote.userIsAnswered ? question.isAnswer ? 'border-2 border-secondary' : vote.userAnswer == index + 1 && 'border-2 border-danger' : '')} onClick={() => !vote.userIsAnswered && handleAnswerVote(question.id)}>
                                         <div className="pr-2">
                                             <div className=" w-5 h-5 border-primary-1100 border-2 rounded-full z-10 flex justify-center items-center">
                                                 {vote.userIsAnswered &&
-                                                    (!question.isAnswer ? (
-                                                        <div className="w-3 h-3 bg-danger rounded-full">
-                                                        </div>
-                                                    ) : (
+                                                    ((question.isAnswer) ? (
                                                         <div className="w-3 h-3 bg-secondary rounded-full">
+                                                        </div>
+
+                                                    ) : vote.userAnswer == index + 1 && (
+                                                        <div className="w-3 h-3 bg-danger rounded-full">
                                                         </div>
                                                     )
                                                     )}
