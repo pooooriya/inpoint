@@ -1,4 +1,5 @@
 export const API_URLS = {
-  GetEvent: "/events/current",
+  GetEvent: "/Events/Current",
   CheckAvailable: "/events/checkAvailable",
+  Challenge: "/Authentication/Challenge",
 };
