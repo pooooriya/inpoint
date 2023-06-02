@@ -1,4 +1,4 @@
 export enum Roles {
-    CLIENT = "CLIENT",
-    HOST = "HOST"
+  CLIENT = "Viewer",
+  HOST = "Authenticated",
 }

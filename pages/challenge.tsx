@@ -36,78 +36,88 @@ const ArvanCloudAuthentication = ({
     control,
     handleSubmit,
     formState: { isDirty, isValid, isSubmitting },
-    getValues,
-    reset,
   } = useForm<FormInput>({
     defaultValues: {
       username: "",
     },
   });
-  console.log(auth);
 
   const [needCreds, setNeedCreds] = useState(false);
   const dispatch = useContext(AppContext).dispatch;
   const router = useRouter();
   const creds = parseCookies();
   useEffect(() => {
-    let timeOutId = setTimeout(() => {
-      if (!auth?.isAuthenticated) {
-        destroyCookie(null, "token");
-        destroyCookie(null, "username");
-        dispatch({ type: AuthContextActionType.NEED_COMPLETE_INFORMATION });
-        setNeedCreds(true);
-      } else {
-        dispatch({ type: AuthContextActionType.AUTH_COMPLETED, payload: auth });
-        dispatch({
-          type: EventContextActionType.EVENT_INFORMATION_COMPLETED,
-          payload: event,
-        });
-        setNeedCreds(false);
-        setCookie(null, "token", auth.accessToken, { expires: 0 });
-        setCookie(null, "username", auth.username, { expires: 0 });
-        //go to main page cause its host
-        //todo: check availability of event to push to another page
-        //todo: emmit user join room here
-        router.push(`/${event.title}`);
-      }
-    }, 3000);
-    return () => {
-      clearTimeout(timeOutId);
-    };
-  }, []);
+    if (router.isReady) {
+      let timeOutId = setTimeout(() => {
+        if (!auth?.isAuthenticated) {
+          destroyCookie(null, "token");
+          destroyCookie(null, "username");
+          dispatch({ type: AuthContextActionType.NEED_COMPLETE_INFORMATION });
+          setNeedCreds(true);
+        } else {
+          dispatch({
+            type: AuthContextActionType.AUTH_COMPLETED,
+            payload: auth,
+          });
+          dispatch({
+            type: EventContextActionType.EVENT_INFORMATION_COMPLETED,
+            payload: event,
+          });
+          setNeedCreds(false);
+          setCookie(null, "token", auth.accessToken, { expires: 0 });
+          setCookie(null, "username", auth.username, { expires: 0 });
+          //go to main page cause its host
+          //todo: check availability of event to push to another page
+          //todo: emmit user join room here
+          router.push(`/${router?.query?.event_name}`);
+        }
+      }, 3000);
+      return () => {
+        clearTimeout(timeOutId);
+      };
+    }
+  }, [router.isReady]);
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
-    await AXIOS.post(API_URLS.ARPA_COMPLETE_USER_CREDS, {
-      first_name: data.username,
-      last_name: "",
-      phone_number: "",
-      event_name: event?.title,
+    await AXIOS.post(API_URLS.VerifyUnAuthorized, {
+      displayName: data?.username,
+      eventId: router?.query?.event_name,
     })
       .then((response) => {
-        console.log(response);
-
-        dispatch({
-          type: AuthContextActionType.AUTH_COMPLETED,
-          payload: {
-            role: Roles.CLIENT,
-            username: data?.username,
-            accessToken: response?.data?.data?.token ?? "",
-          },
-        });
-        if (response?.data?.data?.token) {
-          setCookie(null, "token", response?.data?.data?.token, { expires: 0 });
+        if (response?.data?.statusMessage === "Event_Not_Started_Yet") {
+          toast.error(
+            "رویداد هنوز توسط میزبان شروع نشده است ، لطفا منتظر بمانید!"
+          );
+          return;
+        }
+        if (response?.data?.result?.accessToken) {
+          dispatch({
+            type: AuthContextActionType.AUTH_COMPLETED,
+            payload: {
+              role: Roles.CLIENT,
+              username: data?.username,
+              accessToken: response?.data?.result?.accessToken ?? "",
+            },
+          });
+          setCookie(null, "token", response?.data?.result?.accessToken, {
+            expires: 0,
+          });
           setCookie(null, "username", data?.username, { expires: 0 });
-          router.push(`/${event?.title}`);
+          console.log(router?.query?.event_name);
+
+          router.push({
+            pathname: `${router?.query?.event_name}`,
+          });
         } else {
           destroyCookie(null, "token");
           destroyCookie(null, "username");
           router.push("/404");
         }
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error("خطایی رخ داده است لطفا مجددا امتحان کنید");
-        // sessionStorage.removeItem("accessToken")
-        // sessionStorage.removeItem("username")
+        destroyCookie(null, "token");
+        destroyCookie(null, "username");
         // router.push("/404")
       });
   };
@@ -185,7 +195,7 @@ export const getServerSideProps = async (ctx: any) => {
     if (creds.token && creds.username) {
       // we just check event is available or not !
       response = await AXIOS.post(
-        `${API_URLS.ARPA_AUTH_URL}`,
+        `${API_URLS.GetEvent}`,
         {
           event_name: query.event,
         },
@@ -214,47 +224,55 @@ export const getServerSideProps = async (ctx: any) => {
           },
         },
       };
-    } else {
-      response = await AXIOS.post(
-        `${API_URLS.ARPA_AUTH_URL}`,
-        {
-          event_name: query.event_name,
-        },
-        {
-          headers: query.token
-            ? {
-                Authorization: `bearer ${query.token}`,
-              }
-            : {},
-        }
-      );
-      console.log(response?.data);
-
-      return {
-        props: {
-          auth: {
-            isAuthenticated:
-              response?.data?.data?.role === Roles.HOST && query?.token
-                ? true
-                : false,
-            username:
-              response?.data?.data?.first_name ||
-              "" + response?.data?.data?.last_name ||
-              "",
-            role: response?.data?.data?.role,
-            accessToken: query?.token || "",
-          },
-          event: {
-            title: response?.data?.data.name || "",
-            player: response?.data?.data?.player_url || "",
-            settings: response?.data.data?.settings || [],
-            link: response?.data?.data?.client_url || "",
-            description:
-              response?.data?.data?.event_description || "ایونت بدون نام",
-          },
-        },
-      };
     }
+
+    // else {
+    //   response = await AXIOS.post(
+    //     `${API_URLS.ARPA_AUTH_URL}`,
+    //     {
+    //       event_name: query.event_name,
+    //     },
+    //     {
+    //       headers: query.token
+    //         ? {
+    //             Authorization: `bearer ${query.token}`,
+    //           }
+    //         : {},
+    //     }
+    //   );
+    //   console.log(response?.data);
+
+    //   return {
+    //     props: {
+    //       auth: {
+    //         isAuthenticated:
+    //           response?.data?.data?.role === Roles.HOST && query?.token
+    //             ? true
+    //             : false,
+    //         username:
+    //           response?.data?.data?.first_name ||
+    //           "" + response?.data?.data?.last_name ||
+    //           "",
+    //         role: response?.data?.data?.role,
+    //         accessToken: query?.token || "",
+    //       },
+    //       event: {
+    //         title: response?.data?.data.name || "",
+    //         player: response?.data?.data?.player_url || "",
+    //         settings: response?.data.data?.settings || [],
+    //         link: response?.data?.data?.client_url || "",
+    //         description:
+    //           response?.data?.data?.event_description || "ایونت بدون نام",
+    //       },
+    //     },
+    //   };
+    // }
+    return {
+      props: {
+        auth: null,
+        event: null,
+      },
+    };
   } catch (error) {
     response = null;
     return {
